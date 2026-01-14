@@ -1,0 +1,865 @@
+{
+	"folders": [
+		{
+			"name": "SpaceshipSim",
+			"path": "."
+		},
+		{
+			"name": "UE5",
+			"path": "/home/jeffy/UnrealEngine"
+		}
+	],
+	"settings": {
+		"typescript.tsc.autoDetect": "off",
+		"npm.autoDetect": "off"
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-vscode.cpptools",
+			"ms-dotnettools.csharp"
+		]
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "SpaceshipSim Linux Debug Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"Linux",
+					"Debug",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim Linux Debug Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"Linux",
+					"Debug",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"SpaceshipSim Linux Debug Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim Linux Debug Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"Linux",
+					"Debug",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim Linux DebugGame Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"Linux",
+					"DebugGame",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim Linux DebugGame Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"Linux",
+					"DebugGame",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"SpaceshipSim Linux DebugGame Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim Linux DebugGame Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"Linux",
+					"DebugGame",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim Linux Development Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"Linux",
+					"Development",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim Linux Development Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"Linux",
+					"Development",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"SpaceshipSim Linux Development Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim Linux Development Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"Linux",
+					"Development",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim Linux Test Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"Linux",
+					"Test",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim Linux Test Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"Linux",
+					"Test",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"SpaceshipSim Linux Test Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim Linux Test Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"Linux",
+					"Test",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim Linux Shipping Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"Linux",
+					"Shipping",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim Linux Shipping Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"Linux",
+					"Shipping",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"SpaceshipSim Linux Shipping Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim Linux Shipping Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"Linux",
+					"Shipping",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim LinuxArm64 Debug Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"LinuxArm64",
+					"Debug",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim LinuxArm64 Debug Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"LinuxArm64",
+					"Debug",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"SpaceshipSim LinuxArm64 Debug Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim LinuxArm64 Debug Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"LinuxArm64",
+					"Debug",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim LinuxArm64 DebugGame Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"LinuxArm64",
+					"DebugGame",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim LinuxArm64 DebugGame Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"LinuxArm64",
+					"DebugGame",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"SpaceshipSim LinuxArm64 DebugGame Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim LinuxArm64 DebugGame Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"LinuxArm64",
+					"DebugGame",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim LinuxArm64 Development Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"LinuxArm64",
+					"Development",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim LinuxArm64 Development Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"LinuxArm64",
+					"Development",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"SpaceshipSim LinuxArm64 Development Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim LinuxArm64 Development Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"LinuxArm64",
+					"Development",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim LinuxArm64 Test Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"LinuxArm64",
+					"Test",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim LinuxArm64 Test Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"LinuxArm64",
+					"Test",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"SpaceshipSim LinuxArm64 Test Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim LinuxArm64 Test Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"LinuxArm64",
+					"Test",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim LinuxArm64 Shipping Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"LinuxArm64",
+					"Shipping",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim LinuxArm64 Shipping Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"LinuxArm64",
+					"Shipping",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"SpaceshipSim LinuxArm64 Shipping Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSim LinuxArm64 Shipping Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSim",
+					"LinuxArm64",
+					"Shipping",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSimEditor Linux Debug Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSimEditor",
+					"Linux",
+					"Debug",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSimEditor Linux Debug Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSimEditor",
+					"Linux",
+					"Debug",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"SpaceshipSimEditor Linux Debug Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSimEditor Linux Debug Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSimEditor",
+					"Linux",
+					"Debug",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSimEditor Linux DebugGame Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSimEditor",
+					"Linux",
+					"DebugGame",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSimEditor Linux DebugGame Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSimEditor",
+					"Linux",
+					"DebugGame",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"SpaceshipSimEditor Linux DebugGame Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSimEditor Linux DebugGame Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSimEditor",
+					"Linux",
+					"DebugGame",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSimEditor Linux Development Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSimEditor",
+					"Linux",
+					"Development",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSimEditor Linux Development Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSimEditor",
+					"Linux",
+					"Development",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"SpaceshipSimEditor Linux Development Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			},
+			{
+				"label": "SpaceshipSimEditor Linux Development Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"SpaceshipSimEditor",
+					"Linux",
+					"Development",
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/jeffy/UnrealEngine"
+				}
+			}
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Launch SpaceshipSim (Debug)",
+				"request": "launch",
+				"program": "/home/jeffy/Documents/UnrealProjects/SpaceshipSim/Binaries/Linux/SpaceshipSim-Linux-Debug",
+				"preLaunchTask": "SpaceshipSim Linux Debug Build",
+				"args": [
+				],
+				"cwd": "/home/jeffy/UnrealEngine",
+				"type": "cppdbg",
+				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch SpaceshipSim (DebugGame)",
+				"request": "launch",
+				"program": "/home/jeffy/Documents/UnrealProjects/SpaceshipSim/Binaries/Linux/SpaceshipSim-Linux-DebugGame",
+				"preLaunchTask": "SpaceshipSim Linux DebugGame Build",
+				"args": [
+				],
+				"cwd": "/home/jeffy/UnrealEngine",
+				"type": "cppdbg",
+				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch SpaceshipSim (Development)",
+				"request": "launch",
+				"program": "/home/jeffy/Documents/UnrealProjects/SpaceshipSim/Binaries/Linux/SpaceshipSim",
+				"preLaunchTask": "SpaceshipSim Linux Development Build",
+				"args": [
+				],
+				"cwd": "/home/jeffy/UnrealEngine",
+				"type": "cppdbg",
+				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch SpaceshipSim (Test)",
+				"request": "launch",
+				"program": "/home/jeffy/Documents/UnrealProjects/SpaceshipSim/Binaries/Linux/SpaceshipSim-Linux-Test",
+				"preLaunchTask": "SpaceshipSim Linux Test Build",
+				"args": [
+				],
+				"cwd": "/home/jeffy/UnrealEngine",
+				"type": "cppdbg",
+				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch SpaceshipSim (Shipping)",
+				"request": "launch",
+				"program": "/home/jeffy/Documents/UnrealProjects/SpaceshipSim/Binaries/Linux/SpaceshipSim-Linux-Shipping",
+				"preLaunchTask": "SpaceshipSim Linux Shipping Build",
+				"args": [
+				],
+				"cwd": "/home/jeffy/UnrealEngine",
+				"type": "cppdbg",
+				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch SpaceshipSimEditor (Debug)",
+				"request": "launch",
+				"program": "/home/jeffy/UnrealEngine/Engine/Binaries/Linux/UnrealEditor-Linux-Debug",
+				"preLaunchTask": "SpaceshipSimEditor Linux Debug Build",
+				"args": [
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject"
+				],
+				"cwd": "/home/jeffy/UnrealEngine",
+				"type": "cppdbg",
+				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch SpaceshipSimEditor (DebugGame)",
+				"request": "launch",
+				"program": "/home/jeffy/UnrealEngine/Engine/Binaries/Linux/UnrealEditor-Linux-DebugGame",
+				"preLaunchTask": "SpaceshipSimEditor Linux DebugGame Build",
+				"args": [
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject"
+				],
+				"cwd": "/home/jeffy/UnrealEngine",
+				"type": "cppdbg",
+				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch SpaceshipSimEditor (Development)",
+				"request": "launch",
+				"program": "/home/jeffy/UnrealEngine/Engine/Binaries/Linux/UnrealEditor",
+				"preLaunchTask": "SpaceshipSimEditor Linux Development Build",
+				"args": [
+					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject"
+				],
+				"cwd": "/home/jeffy/UnrealEngine",
+				"type": "cppdbg",
+				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Generate Project Files",
+				"type": "coreclr",
+				"request": "launch",
+				"preLaunchTask": "UnrealBuildTool Linux Development Build",
+				"program": "/home/jeffy/UnrealEngine/Engine/Build/BatchFiles/RunUBT.bat",
+				"args": [
+					"-projectfiles",
+					"-vscode",
+					"-project=/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject",
+					"-game",
+					"-engine",
+					"-dotnet"
+				],
+				"console": "internalConsole",
+				"internalConsoleOptions": "openOnSessionStart",
+				"stopAtEntry": false,
+				"cwd": "/home/jeffy/UnrealEngine"
+			}
+		]
+	}
+}

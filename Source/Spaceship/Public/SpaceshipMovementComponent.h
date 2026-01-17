@@ -6,6 +6,8 @@
 #include "GameFramework/PawnMovementComponent.h"
 #include "SpaceshipMovementComponent.generated.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(LogSpaceshipMovement, Log, All);
+
 /**
  * 
  */
@@ -19,20 +21,20 @@ public:
 	
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
-	void setThrottleInput(float Value);
+	void SetThrottleInput(float Value);
 	
 protected:
 	UPROPERTY(EditAnywhere, Category = "Movement")
-	float MaxSpeed = 600.f;
+	float MaxSpeed = 1200.f;
 	
 	UPROPERTY(EditAnywhere, Category = "Movement")
-	float Acceleration = 800.f;
+	float MaxAcceleration = 400.f;
 	
 	UPROPERTY(EditAnywhere, Category = "Movement")
-	float Deceleration = 100.f;
+	float Deceleration = 50.f;
 	
 private:
 	float ThrottleInput = 0.f;
-	FVector Velocity = FVector::ZeroVector;
 	
+	float CurrentAcceleration = 0.0f;
 };

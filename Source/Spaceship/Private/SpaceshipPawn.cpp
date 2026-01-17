@@ -62,7 +62,7 @@ void ASpaceshipPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 		// throttle 
 		EnhancedInputComponent->BindAction(ThrottleAction, ETriggerEvent::Triggered, this, &ASpaceshipPawn::Throttle);
-		//EnhancedInputComponent->BindAction(ThrottleAction, ETriggerEvent::Completed, this, &ASpaceshipPawn::Throttle);
+		EnhancedInputComponent->BindAction(ThrottleAction, ETriggerEvent::Completed, this, &ASpaceshipPawn::Throttle);
 
 		// break 
 		//EnhancedInputComponent->BindAction(BrakeAction, ETriggerEvent::Triggered, this, &ASpaceshipPawn::Brake);
@@ -85,12 +85,11 @@ void ASpaceshipPawn::Throttle(const FInputActionValue& Value)
 	float ThrottleValue = Value.Get<float>();
 	if (IsValid(MovementComponent))
 	{
-		MovementComponent->setThrottleInput(ThrottleValue);	
+		MovementComponent->SetThrottleInput(ThrottleValue);	
 	}else
 	{
 		UE_LOG(LogSpaceship, Error, TEXT("Movement Component is not valid"));
 	}
-	
 }
 
 void ASpaceshipPawn::LookAround(const FInputActionValue& Value)

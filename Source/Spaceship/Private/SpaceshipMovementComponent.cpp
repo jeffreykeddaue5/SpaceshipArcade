@@ -23,7 +23,72 @@ void USpaceshipMovementComponent::TickComponent(
 	{
 		return;
 	}
+	
+	UpdateVelocity(DeltaTime);
+	UpdateSteering(DeltaTime);
+}
 
+void USpaceshipMovementComponent::SetSteeringInput(float Value)
+{
+	SteeringInput = Value;
+}
+
+void USpaceshipMovementComponent::SetThrottleInput(float Value)
+{
+	ThrottleInput = Value;
+	UE_LOG(LogSpaceshipMovement, Display, TEXT("Throttle: %f"), ThrottleInput);
+}
+
+void USpaceshipMovementComponent::UpdateSteering(float DeltaTime)
+{
+	const FVector RightVector = UpdatedComponent->GetRightVector();
+	
+	float SideSpeed = FVector::DotProduct(Velocity, RightVector);
+	
+	constexpr float AccelRate = 1000.f;
+	constexpr float MaxSideSpeed = 900.f;
+	
+	if (SteeringInput > 0.f)
+	{
+		SideSpeed += AccelRate * DeltaTime; 
+	}
+	else if (SteeringInput < 0.f)
+	{
+		SideSpeed -= AccelRate * DeltaTime;
+	}
+	else
+	{
+		if ((SideSpeed - (AccelRate * DeltaTime)) > 0)
+		{
+			SideSpeed -= AccelRate * DeltaTime;
+		}
+		else if ((SideSpeed + (AccelRate * DeltaTime)) < 0)
+		{
+			SideSpeed += AccelRate * DeltaTime;
+		}
+		else
+		{
+			SideSpeed = 0;
+		}
+	}
+	
+	SideSpeed = FMath::Clamp(SideSpeed, -MaxSideSpeed, MaxSideSpeed);
+	
+	Velocity.Y = SideSpeed * RightVector.Y;
+	
+	const FVector Delta = Velocity * DeltaTime;
+
+	FHitResult Hit;
+	SafeMoveUpdatedComponent(Delta, UpdatedComponent->GetComponentQuat(), true, Hit);
+	
+	if (Hit.IsValidBlockingHit())
+	{
+		SlideAlongSurface(Delta, 1.f - Hit.Time, Hit.Normal, Hit);
+	}	
+}
+
+void USpaceshipMovementComponent::UpdateVelocity(float DeltaTime)
+{
 	const FVector ForwardVector = UpdatedComponent->GetForwardVector();
 
 	// Project velocity onto forward direction (actual forward speed)
@@ -51,7 +116,7 @@ void USpaceshipMovementComponent::TickComponent(
 	ForwardSpeed = FMath::Clamp(ForwardSpeed, 0.f, MaxSpeed);
 
 	// Rebuild velocity strictly along forward vector
-	Velocity = ForwardVector * ForwardSpeed;
+	Velocity.X = ForwardVector.X * ForwardSpeed;
 
 	// === Movement ===
 	const FVector Delta = Velocity * DeltaTime;
@@ -63,11 +128,5 @@ void USpaceshipMovementComponent::TickComponent(
 	{
 		SlideAlongSurface(Delta, 1.f - Hit.Time, Hit.Normal, Hit);
 	}
-}
-
-
-void USpaceshipMovementComponent::SetThrottleInput(float Value)
-{
-	ThrottleInput = Value;
-	UE_LOG(LogSpaceshipMovement, Display, TEXT("Throttle: %f"), ThrottleInput);
+	
 }

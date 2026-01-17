@@ -21,6 +21,8 @@ public:
 	
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
+	void SetSteeringInput(float Value);
+	
 	void SetThrottleInput(float Value);
 	
 protected:
@@ -36,5 +38,11 @@ protected:
 private:
 	float ThrottleInput = 0.f;
 	
+	float SteeringInput = 0.f;
+	
 	float CurrentAcceleration = 0.0f;
+	
+	void UpdateSteering(float DeltaTime);
+	
+	void UpdateVelocity(float DeltaTime);
 };

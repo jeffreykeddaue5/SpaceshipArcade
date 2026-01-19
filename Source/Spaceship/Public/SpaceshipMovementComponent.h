@@ -27,7 +27,7 @@ public:
 	
 protected:
 	UPROPERTY(EditAnywhere, Category = "Movement")
-	float MaxSpeed = 1200.f;
+	float MaxSpeed = 12000.f;
 	
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float MaxAcceleration = 400.f;
@@ -37,12 +37,15 @@ protected:
 	
 private:
 	float ThrottleInput = 0.f;
-	
 	float SteeringInput = 0.f;
-	
 	float CurrentAcceleration = 0.0f;
+	float CurrentForwardSpeed = 0.0f;
+	float CurrentRightSpeed = 0.0f;
+	
 	
 	void UpdateSteering(float DeltaTime);
 	
 	void UpdateVelocity(float DeltaTime);
+	
+	void UpdateRotation(float DeltaTime);
 };

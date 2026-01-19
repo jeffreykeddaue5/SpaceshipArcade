@@ -16,6 +16,6 @@ public class SpaceshipSimEditorTarget : TargetRules
 
 	private void RegisterModulesCreatedByRider()
 	{
-		ExtraModuleNames.AddRange(new string[] { "Spaceship" });
+		ExtraModuleNames.AddRange(new string[] { "Spaceship", "UserInterface" });
 	}
 }

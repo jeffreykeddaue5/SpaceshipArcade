@@ -15,9 +15,9 @@ DEFINE_LOG_CATEGORY(LogSpaceship);
 ASpaceshipPawn::ASpaceshipPawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
-	bUseControllerRotationRoll = false;
+	bUseControllerRotationPitch = true;
+	bUseControllerRotationYaw = true;
+	bUseControllerRotationRoll = true;
 		
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	// construct the back camera boom
@@ -100,6 +100,7 @@ void ASpaceshipPawn::LookAround(const FInputActionValue& Value)
 	if (Controller != nullptr)
 	{
 		// add yaw and pitch input to controller
+		const FRotator rotator = GetActorRotation();
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}

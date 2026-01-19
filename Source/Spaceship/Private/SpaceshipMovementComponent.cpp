@@ -26,6 +26,21 @@ void USpaceshipMovementComponent::TickComponent(
 	
 	UpdateVelocity(DeltaTime);
 	UpdateSteering(DeltaTime);
+	const FVector ForwardVector = UpdatedComponent->GetForwardVector();
+	const FVector RightVector   = UpdatedComponent->GetRightVector();
+	
+	Velocity =
+			(ForwardVector * CurrentForwardSpeed) +
+			(RightVector   * CurrentRightSpeed);
+	
+	const FVector Delta = Velocity * DeltaTime;
+	FHitResult Hit;
+	SafeMoveUpdatedComponent(Delta, UpdatedComponent->GetComponentQuat(), true, Hit);
+
+	if (Hit.IsValidBlockingHit())
+	{
+		SlideAlongSurface(Delta, 1.f - Hit.Time, Hit.Normal, Hit);
+	}
 }
 
 void USpaceshipMovementComponent::SetSteeringInput(float Value)
@@ -43,48 +58,36 @@ void USpaceshipMovementComponent::UpdateSteering(float DeltaTime)
 {
 	const FVector RightVector = UpdatedComponent->GetRightVector();
 	
-	float SideSpeed = FVector::DotProduct(Velocity, RightVector);
+	CurrentRightSpeed = FVector::DotProduct(Velocity, RightVector);
 	
 	constexpr float AccelRate = 1000.f;
 	constexpr float MaxSideSpeed = 900.f;
 	
 	if (SteeringInput > 0.f)
 	{
-		SideSpeed += AccelRate * DeltaTime; 
+		CurrentRightSpeed += AccelRate * DeltaTime; 
 	}
 	else if (SteeringInput < 0.f)
 	{
-		SideSpeed -= AccelRate * DeltaTime;
+		CurrentRightSpeed -= AccelRate * DeltaTime;
 	}
 	else
 	{
-		if ((SideSpeed - (AccelRate * DeltaTime)) > 0)
+		if ((CurrentRightSpeed - (AccelRate * DeltaTime)) > 0)
 		{
-			SideSpeed -= AccelRate * DeltaTime;
+			CurrentRightSpeed -= AccelRate * DeltaTime;
 		}
-		else if ((SideSpeed + (AccelRate * DeltaTime)) < 0)
+		else if ((CurrentRightSpeed + (AccelRate * DeltaTime)) < 0)
 		{
-			SideSpeed += AccelRate * DeltaTime;
+			CurrentRightSpeed += AccelRate * DeltaTime;
 		}
 		else
 		{
-			SideSpeed = 0;
+			CurrentRightSpeed = 0;
 		}
 	}
 	
-	SideSpeed = FMath::Clamp(SideSpeed, -MaxSideSpeed, MaxSideSpeed);
-	
-	Velocity.Y = SideSpeed * RightVector.Y;
-	
-	const FVector Delta = Velocity * DeltaTime;
-
-	FHitResult Hit;
-	SafeMoveUpdatedComponent(Delta, UpdatedComponent->GetComponentQuat(), true, Hit);
-	
-	if (Hit.IsValidBlockingHit())
-	{
-		SlideAlongSurface(Delta, 1.f - Hit.Time, Hit.Normal, Hit);
-	}	
+	CurrentRightSpeed = FMath::Clamp(CurrentRightSpeed, -MaxSideSpeed, MaxSideSpeed);
 }
 
 void USpaceshipMovementComponent::UpdateVelocity(float DeltaTime)
@@ -92,7 +95,7 @@ void USpaceshipMovementComponent::UpdateVelocity(float DeltaTime)
 	const FVector ForwardVector = UpdatedComponent->GetForwardVector();
 
 	// Project velocity onto forward direction (actual forward speed)
-	float ForwardSpeed = FVector::DotProduct(Velocity, ForwardVector);
+	CurrentForwardSpeed = FVector::DotProduct(Velocity, ForwardVector);
 
 	constexpr float AccelRate     = 1200.f; // throttle = 1
 	constexpr float CoastDecel    = 300.f;  // throttle = 0
@@ -101,32 +104,24 @@ void USpaceshipMovementComponent::UpdateVelocity(float DeltaTime)
 	// === Acceleration logic ===
 	if (ThrottleInput > 0.f)
 	{
-		ForwardSpeed += AccelRate * DeltaTime;
+		CurrentForwardSpeed += AccelRate * DeltaTime;
 	}
 	else if (ThrottleInput < 0.f)
 	{
-		ForwardSpeed -= BrakeDecel * DeltaTime;
+		CurrentForwardSpeed -= BrakeDecel * DeltaTime;
 	}
 	else
 	{
-		ForwardSpeed -= CoastDecel * DeltaTime;
+		CurrentForwardSpeed -= CoastDecel * DeltaTime;
 	}
 
 	// Never allow backing up
-	ForwardSpeed = FMath::Clamp(ForwardSpeed, 0.f, MaxSpeed);
+	CurrentForwardSpeed = FMath::Clamp(CurrentForwardSpeed, 0.f, MaxSpeed);
+	
+}
 
-	// Rebuild velocity strictly along forward vector
-	Velocity.X = ForwardVector.X * ForwardSpeed;
-
-	// === Movement ===
-	const FVector Delta = Velocity * DeltaTime;
-
-	FHitResult Hit;
-	SafeMoveUpdatedComponent(Delta, UpdatedComponent->GetComponentQuat(), true, Hit);
-
-	if (Hit.IsValidBlockingHit())
-	{
-		SlideAlongSurface(Delta, 1.f - Hit.Time, Hit.Normal, Hit);
-	}
+void USpaceshipMovementComponent::UpdateRotation(float DeltaTime)
+{
+	
 	
 }

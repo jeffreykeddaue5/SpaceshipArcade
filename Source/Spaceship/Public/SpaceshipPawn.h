@@ -62,11 +62,16 @@ protected:
 	
 	void LookAround(const FInputActionValue& Value);
 	
+	void setVirtualCursor(const FVector2D& Value);
+	
 public:
 	/** Returns the back spring arm subobject */
 	FORCEINLINE USpringArmComponent* GetBackSpringArm() const { return BackSpringArm; }
 	/** Returns the back camera subobject */
 	FORCEINLINE UCameraComponent* GetBackCamera() const { return BackCamera; }
+	
+	UPROPERTY(BlueprintReadWrite)
+	FVector2D VirtualCursor;
 
 public:
 	ASpaceshipPawn();

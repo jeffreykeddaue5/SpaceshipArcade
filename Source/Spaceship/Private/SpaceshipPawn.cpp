@@ -47,6 +47,9 @@ ASpaceshipPawn::ASpaceshipPawn()
 void ASpaceshipPawn::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	VirtualCursor = FVector2D(0.0f, 0.0f);
+	
 }
 
 void ASpaceshipPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -103,13 +106,31 @@ void ASpaceshipPawn::LookAround(const FInputActionValue& Value)
 		const FRotator rotator = GetActorRotation();
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
+		setVirtualCursor(LookAxisVector);
 	}
-}	
+}
+
+void ASpaceshipPawn::setVirtualCursor(const FVector2D& Value)
+{
+	
+	FVector2D ViewportSize;
+	if (GEngine && GEngine->GameViewport)
+	{
+		GEngine->GameViewport->GetViewportSize(ViewportSize);
+	}
+	
+	const float CursorX = (Value.X * 20.0f) + VirtualCursor.X;
+	const float CursorY = (Value.Y * 20.0f) + VirtualCursor.Y;
+	
+	const float ClampedValueX = FMath::Clamp(CursorX, -(ViewportSize.X/2), ViewportSize.X/2);
+	const float ClampedValueY = FMath::Clamp(CursorY, -(ViewportSize.Y/2), ViewportSize.Y/2);
+	
+	VirtualCursor.X = ClampedValueX;
+	VirtualCursor.Y = ClampedValueY;
+}
 
 void ASpaceshipPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
-
 }
 

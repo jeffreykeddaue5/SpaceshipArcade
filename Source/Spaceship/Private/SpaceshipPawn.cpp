@@ -42,13 +42,13 @@ ASpaceshipPawn::ASpaceshipPawn()
 	
 	MovementComponent = CreateDefaultSubobject<USpaceshipMovementComponent>(TEXT("MovementComponent"));
 	MovementComponent->UpdatedComponent = RootComponent;
+	
+	VirtualCursor = FVector2D(0.0f, 0.0f);
 }
 
 void ASpaceshipPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	VirtualCursor = FVector2D(0.0f, 0.0f);
 	
 }
 
@@ -104,8 +104,6 @@ void ASpaceshipPawn::LookAround(const FInputActionValue& Value)
 	{
 		// add yaw and pitch input to controller
 		const FRotator rotator = GetActorRotation();
-		AddControllerYawInput(LookAxisVector.X);
-		AddControllerPitchInput(LookAxisVector.Y);
 		setVirtualCursor(LookAxisVector);
 	}
 }
@@ -119,18 +117,44 @@ void ASpaceshipPawn::setVirtualCursor(const FVector2D& Value)
 		GEngine->GameViewport->GetViewportSize(ViewportSize);
 	}
 	
-	const float CursorX = (Value.X * 20.0f) + VirtualCursor.X;
-	const float CursorY = (Value.Y * 20.0f) + VirtualCursor.Y;
+	const float CursorX = (Value.X * 10.0f) + VirtualCursor.X;
+	const float CursorY = (Value.Y * 10.0f) + VirtualCursor.Y;
+	float Radius = ViewportSize.Y / 4.0f;
 	
-	const float ClampedValueX = FMath::Clamp(CursorX, -(ViewportSize.X/2), ViewportSize.X/2);
-	const float ClampedValueY = FMath::Clamp(CursorY, -(ViewportSize.Y/2), ViewportSize.Y/2);
+	FVector2D Cursor(CursorX, CursorY); 
+	FVector2D Center(0.f, 0.f); 
+	FVector2D Offset = Cursor - Center;
+
+	if (const float Distance = Offset.Size(); Distance > Radius)
+	{
+		Offset = Offset.GetSafeNormal() * Radius;
+	}
+	const FVector2D ClampedCursor = Center + Offset;
 	
-	VirtualCursor.X = ClampedValueX;
-	VirtualCursor.Y = ClampedValueY;
+	VirtualCursor.X = ClampedCursor.X;
+	VirtualCursor.Y = ClampedCursor.Y;
+
+	constexpr float Expo = 2.0f; // try 2–4
+
+	const float NormalizedX = FMath::Clamp(VirtualCursor.X / Radius, -1.0f, 1.0f);
+	const float NormalizedY = FMath::Clamp(VirtualCursor.Y / Radius, -1.0f, 1.0f);
+
+	DeltaX = FMath::Sign(NormalizedX) * FMath::Pow(FMath::Abs(NormalizedX), Expo);
+	DeltaY = FMath::Sign(NormalizedY) * FMath::Pow(FMath::Abs(NormalizedY), Expo);
+	
+	UE_LOG(LogSpaceshipMovement, Display, TEXT("DeltaX: %f"), DeltaX);
+	UE_LOG(LogSpaceshipMovement, Display, TEXT("DeltaY: %f"), DeltaY);
+	
+		
+	AddControllerYawInput(DeltaX);
+	AddControllerPitchInput(DeltaY);
+	
 }
 
 void ASpaceshipPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	
 }
 

@@ -70,8 +70,11 @@ public:
 	/** Returns the back camera subobject */
 	FORCEINLINE UCameraComponent* GetBackCamera() const { return BackCamera; }
 	
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadOnly)
 	FVector2D VirtualCursor;
+	
+	float DeltaX;
+	float DeltaY;
 
 public:
 	ASpaceshipPawn();

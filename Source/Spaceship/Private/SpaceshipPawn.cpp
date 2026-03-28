@@ -15,9 +15,9 @@ DEFINE_LOG_CATEGORY(LogSpaceship);
 ASpaceshipPawn::ASpaceshipPawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	bUseControllerRotationPitch = true;
-	bUseControllerRotationYaw = true;
-	bUseControllerRotationRoll = true;
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationRoll = false;
 		
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	// construct the back camera boom
@@ -134,7 +134,7 @@ void ASpaceshipPawn::setVirtualCursor(const FVector2D& Value)
 	VirtualCursor.X = ClampedCursor.X;
 	VirtualCursor.Y = ClampedCursor.Y;
 
-	constexpr float Expo = 2.0f; // try 2–4
+	constexpr float Expo = 2.0f;
 
 	const float NormalizedX = FMath::Clamp(VirtualCursor.X / Radius, -1.0f, 1.0f);
 	const float NormalizedY = FMath::Clamp(VirtualCursor.Y / Radius, -1.0f, 1.0f);
@@ -145,16 +145,12 @@ void ASpaceshipPawn::setVirtualCursor(const FVector2D& Value)
 	UE_LOG(LogSpaceshipMovement, Display, TEXT("DeltaX: %f"), DeltaX);
 	UE_LOG(LogSpaceshipMovement, Display, TEXT("DeltaY: %f"), DeltaY);
 	
-		
-	AddControllerYawInput(DeltaX);
-	AddControllerPitchInput(DeltaY);
-	
 }
 
 void ASpaceshipPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	
+	AddActorLocalRotation(FRotator(DeltaY * -1, DeltaX, 0));
 }
 

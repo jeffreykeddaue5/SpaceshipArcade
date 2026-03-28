@@ -73,7 +73,9 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	FVector2D VirtualCursor;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float DeltaX;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float DeltaY;
 
 public:

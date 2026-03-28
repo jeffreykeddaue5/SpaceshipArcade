@@ -17,7 +17,7 @@ class SPACESHIP_API ASpaceshipPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
-	
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputMappingContext * InputMappingContext;

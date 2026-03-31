@@ -134,23 +134,51 @@ void ASpaceshipPawn::setVirtualCursor(const FVector2D& Value)
 	VirtualCursor.X = ClampedCursor.X;
 	VirtualCursor.Y = ClampedCursor.Y;
 
-	constexpr float Expo = 2.0f;
+	constexpr float Expo = 9.0f;
 
 	const float NormalizedX = FMath::Clamp(VirtualCursor.X / Radius, -1.0f, 1.0f);
 	const float NormalizedY = FMath::Clamp(VirtualCursor.Y / Radius, -1.0f, 1.0f);
 
-	DeltaX = FMath::Sign(NormalizedX) * FMath::Pow(FMath::Abs(NormalizedX), Expo);
-	DeltaY = FMath::Sign(NormalizedY) * FMath::Pow(FMath::Abs(NormalizedY), Expo);
+	// DeltaX = FMath::Sign(NormalizedX) * FMath::Pow(FMath::Abs(NormalizedX), Expo);
+	// DeltaY = FMath::Sign(NormalizedY) * FMath::Pow(FMath::Abs(NormalizedY), Expo);
 	
-	UE_LOG(LogSpaceshipMovement, Display, TEXT("DeltaX: %f"), DeltaX);
-	UE_LOG(LogSpaceshipMovement, Display, TEXT("DeltaY: %f"), DeltaY);
+	DeltaYaw = NormalizedX * 2;
+	DeltaPitch = NormalizedY * 2;
+	
+	UE_LOG(LogSpaceshipMovement, Display, TEXT("DeltaX: %f"), DeltaYaw);
+	UE_LOG(LogSpaceshipMovement, Display, TEXT("DeltaY: %f"), DeltaPitch);
 	
 }
 
 void ASpaceshipPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	double CurrentRoll = Spaceship->GetRelativeRotation().Pitch * -1;
+	float TargetRoll = 0.f;
+
+	// Player turning → bank ship
+	if (FMath::Abs(DeltaYaw / 2) > 0.1f)
+	{
+		TargetRoll = ( DeltaYaw /2  ) * maxRoll;
+	}
+
+	// Smoothly move toward target roll
+	float NewRoll = FMath::FInterpTo(
+		CurrentRoll,
+		TargetRoll,
+		DeltaTime,
+		1
+	);
+
+	// Clamp safety
+	NewRoll = FMath::Clamp(NewRoll, minRoll, maxRoll);
 	
-	AddActorLocalRotation(FRotator(DeltaY * -1, DeltaX, 0));
+	DeltaRoll = NewRoll - CurrentRoll;
+	
+	
+	AddActorLocalRotation(FRotator(DeltaPitch * -1, DeltaYaw, 0));
+	Spaceship->AddRelativeRotation(FRotator(-1 * DeltaRoll, 0, 0));
+	
+	
 }
 

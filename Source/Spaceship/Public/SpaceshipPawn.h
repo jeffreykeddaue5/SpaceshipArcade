@@ -74,9 +74,20 @@ public:
 	FVector2D VirtualCursor;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	float DeltaX;
+	float DeltaYaw;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	float DeltaY;
+	float DeltaPitch;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float DeltaRoll;
+	
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float DeltaMovement;
+	
+private:
+	
+	int maxRoll = 45;
+	int minRoll = -45;
 
 public:
 	ASpaceshipPawn();

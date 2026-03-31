@@ -153,13 +153,13 @@ void ASpaceshipPawn::setVirtualCursor(const FVector2D& Value)
 void ASpaceshipPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	double CurrentRoll = Spaceship->GetRelativeRotation().Pitch * -1;
+	double CurrentRoll = Spaceship->GetRelativeRotation().Roll;
 	float TargetRoll = 0.f;
 
 	// Player turning → bank ship
-	if (FMath::Abs(DeltaYaw / 2) > 0.1f)
+	if (FMath::Abs(DeltaYaw / 2) > 0.3f)
 	{
-		TargetRoll = ( DeltaYaw /2  ) * maxRoll;
+		TargetRoll = ( DeltaYaw / 2  ) * maxRoll;
 	}
 
 	// Smoothly move toward target roll
@@ -172,12 +172,11 @@ void ASpaceshipPawn::Tick(float DeltaTime)
 
 	// Clamp safety
 	NewRoll = FMath::Clamp(NewRoll, minRoll, maxRoll);
-	
 	DeltaRoll = NewRoll - CurrentRoll;
 	
 	
 	AddActorLocalRotation(FRotator(DeltaPitch * -1, DeltaYaw, 0));
-	Spaceship->AddRelativeRotation(FRotator(-1 * DeltaRoll, 0, 0));
+	Spaceship->AddRelativeRotation(FRotator(0, 0, DeltaRoll));
 	
 	
 }

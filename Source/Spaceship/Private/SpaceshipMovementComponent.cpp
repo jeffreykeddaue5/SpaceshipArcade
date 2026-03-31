@@ -123,5 +123,4 @@ void USpaceshipMovementComponent::UpdateVelocity(float DeltaTime)
 void USpaceshipMovementComponent::UpdateRotation(float DeltaTime)
 {
 	
-	
 }

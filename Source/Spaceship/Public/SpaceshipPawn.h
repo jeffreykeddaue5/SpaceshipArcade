@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "SpaceshipPawn.generated.h"
 
+class ASpaceshipPlayerController;
 class USpaceshipMovementComponent;
 class UCameraComponent;
 class USpringArmComponent;
@@ -19,13 +20,41 @@ class SPACESHIP_API ASpaceshipPawn : public APawn
 {
 	GENERATED_BODY()
 
+public:
+	ASpaceshipPawn();
+	
+	virtual void BeginPlay() override;
+	
+	virtual void Tick(float DeltaTime) override;
+	
+public:
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float DeltaYaw;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float DeltaPitch;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float DeltaRoll;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float DeltaMovement;
+	
+	UPROPERTY(BlueprintReadOnly)
+	FVector2D VirtualCursor{0,0};
+	
+	FORCEINLINE USpringArmComponent* GetBackSpringArm() const { return BackSpringArm; }
+
+	FORCEINLINE UCameraComponent* GetBackCamera() const { return BackCamera; }
+	
+	void setVirtualCursor( FVector2D Value);
+
 protected:
 	
-	/** Spring Arm for the back camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* BackSpringArm;
-
-	/** Back Camera component */
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* BackCamera;
 	
@@ -35,69 +64,16 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	USpaceshipMovementComponent* MovementComponent;
 	
-protected:
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	UInputAction* SteeringAction;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	UInputAction* ThrottleAction;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	UInputAction* BrakeAction;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	UInputAction* LookAroundAction;
-	
-protected:
-	void Steering(const FInputActionValue& Value);
-	
-	void Throttle(const FInputActionValue& Value);
-	
-	void Brake(const FInputActionValue& Value);
-	
-	void StartBrake(const FInputActionValue& Value);
-	
-	void StopBrake(const FInputActionValue& Value);
-	
-	void LookAround(const FInputActionValue& Value);
-	
-	void setVirtualCursor(const FVector2D& Value);
-	
-public:
-	/** Returns the back spring arm subobject */
-	FORCEINLINE USpringArmComponent* GetBackSpringArm() const { return BackSpringArm; }
-	/** Returns the back camera subobject */
-	FORCEINLINE UCameraComponent* GetBackCamera() const { return BackCamera; }
-	
-	UPROPERTY(BlueprintReadOnly)
-	FVector2D VirtualCursor;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	float DeltaYaw;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	float DeltaPitch;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	float DeltaRoll;
-	
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	float DeltaMovement;
-	
 private:
-	
 	int maxRoll = 45;
+	
 	int minRoll = -45;
-
-public:
-	ASpaceshipPawn();
 	
-	virtual void BeginPlay() override;
+	float Radius = 0;
 	
-	virtual void Tick(float DeltaTime) override;
+	UPROPERTY()
+	ASpaceshipPlayerController* SpaceshipPlayerController;
 	
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void PossessedBy(AController* NewController) override;
 	
-	
-
 };

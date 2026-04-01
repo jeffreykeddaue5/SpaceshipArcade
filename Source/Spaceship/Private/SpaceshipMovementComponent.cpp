@@ -12,6 +12,17 @@ USpaceshipMovementComponent::USpaceshipMovementComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
+void USpaceshipMovementComponent::SetSteeringInput(float Value)
+{
+	SteeringInput = Value;
+}
+
+void USpaceshipMovementComponent::SetThrottleInput(float Value)
+{
+	ThrottleInput = Value;
+	UE_LOG(LogSpaceshipMovement, Display, TEXT("Throttle: %f"), ThrottleInput);
+}
+
 void USpaceshipMovementComponent::TickComponent(
 	float DeltaTime,
 	ELevelTick TickType,
@@ -43,16 +54,6 @@ void USpaceshipMovementComponent::TickComponent(
 	}
 }
 
-void USpaceshipMovementComponent::SetSteeringInput(float Value)
-{
-	SteeringInput = Value;
-}
-
-void USpaceshipMovementComponent::SetThrottleInput(float Value)
-{
-	ThrottleInput = Value;
-	UE_LOG(LogSpaceshipMovement, Display, TEXT("Throttle: %f"), ThrottleInput);
-}
 
 void USpaceshipMovementComponent::UpdateSteering(float DeltaTime)
 {
@@ -93,15 +94,13 @@ void USpaceshipMovementComponent::UpdateSteering(float DeltaTime)
 void USpaceshipMovementComponent::UpdateVelocity(float DeltaTime)
 {
 	const FVector ForwardVector = UpdatedComponent->GetForwardVector();
-
-	// Project velocity onto forward direction (actual forward speed)
+	
 	CurrentForwardSpeed = FVector::DotProduct(Velocity, ForwardVector);
 
 	constexpr float AccelRate     = 1200.f; // throttle = 1
 	constexpr float CoastDecel    = 300.f;  // throttle = 0
 	constexpr float BrakeDecel    = 1800.f; // throttle = -1
-
-	// === Acceleration logic ===
+	
 	if (ThrottleInput > 0.f)
 	{
 		CurrentForwardSpeed += AccelRate * DeltaTime;
@@ -114,8 +113,7 @@ void USpaceshipMovementComponent::UpdateVelocity(float DeltaTime)
 	{
 		CurrentForwardSpeed -= CoastDecel * DeltaTime;
 	}
-
-	// Never allow backing up
+	
 	CurrentForwardSpeed = FMath::Clamp(CurrentForwardSpeed, 0.f, MaxSpeed);
 	
 }

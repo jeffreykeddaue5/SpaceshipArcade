@@ -23,6 +23,11 @@ void USpaceshipMovementComponent::SetThrottleInput(float Value)
 	UE_LOG(LogSpaceshipMovement, Display, TEXT("Throttle: %f"), ThrottleInput);
 }
 
+void USpaceshipMovementComponent::SetBoostInput(bool Value)
+{
+	BoostInput = Value;
+}
+
 void USpaceshipMovementComponent::TickComponent(
 	float DeltaTime,
 	ELevelTick TickType,
@@ -37,6 +42,7 @@ void USpaceshipMovementComponent::TickComponent(
 	
 	UpdateVelocity(DeltaTime);
 	UpdateSteering(DeltaTime);
+	
 	const FVector ForwardVector = UpdatedComponent->GetForwardVector();
 	const FVector RightVector   = UpdatedComponent->GetRightVector();
 	
@@ -61,7 +67,7 @@ void USpaceshipMovementComponent::UpdateSteering(float DeltaTime)
 	
 	CurrentRightSpeed = FVector::DotProduct(Velocity, RightVector);
 	
-	constexpr float AccelRate = 1000.f;
+	AccelRate = 1000.f;
 	constexpr float MaxSideSpeed = 900.f;
 	
 	if (SteeringInput > 0.f)
@@ -97,10 +103,16 @@ void USpaceshipMovementComponent::UpdateVelocity(float DeltaTime)
 	
 	CurrentForwardSpeed = FVector::DotProduct(Velocity, ForwardVector);
 
-	constexpr float AccelRate     = 1200.f; // throttle = 1
-	constexpr float CoastDecel    = 300.f;  // throttle = 0
-	constexpr float BrakeDecel    = 1800.f; // throttle = -1
-	
+	if (BoostInput)
+	{
+		AccelRate = 10000.0f;
+		MaxSpeed = 24000.0f;
+	}
+	else
+	{
+		AccelRate = 1200.0f;
+		MaxSpeed = 12000.0f;
+	}
 	if (ThrottleInput > 0.f)
 	{
 		CurrentForwardSpeed += AccelRate * DeltaTime;

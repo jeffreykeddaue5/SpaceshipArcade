@@ -42,8 +42,8 @@ ASpaceshipPawn::ASpaceshipPawn()
 	BackCamera->SetupAttachment(BackSpringArm);
 	BackCamera->bUsePawnControlRotation = false;
 	
-	Spaceship = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Spaceship"));
-	Spaceship->SetupAttachment(RootComponent);
+	SpaceshipStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Spaceship"));
+	SpaceshipStaticMesh->SetupAttachment(RootComponent);
 	
 	MovementComponent = CreateDefaultSubobject<USpaceshipMovementComponent>(TEXT("MovementComponent"));
 	MovementComponent->UpdatedComponent = RootComponent;
@@ -62,8 +62,9 @@ void ASpaceshipPawn::Tick(float DeltaTime)
 	
 	MovementComponent->SetSteeringInput(SpaceshipPlayerController->SteeringValue);
 	MovementComponent->SetThrottleInput(SpaceshipPlayerController->ThrottleValue);
+	MovementComponent->SetBoostInput(SpaceshipPlayerController->BoostValue);
 	
-	double CurrentRoll = Spaceship->GetRelativeRotation().Roll;
+	double CurrentRoll = SpaceshipStaticMesh->GetRelativeRotation().Roll;
 	float TargetRoll = 0.f;
 	
 	if (FMath::Abs(DeltaYaw / 2) > 0.3f)
@@ -82,7 +83,7 @@ void ASpaceshipPawn::Tick(float DeltaTime)
 	DeltaRoll = NewRoll - CurrentRoll;
 	
 	AddActorLocalRotation(FRotator(DeltaPitch * -1, DeltaYaw, 0));
-	Spaceship->AddRelativeRotation(FRotator(0, 0, DeltaRoll));
+	SpaceshipStaticMesh->AddRelativeRotation(FRotator(0, 0, DeltaRoll));
 	
 }
 
@@ -95,7 +96,7 @@ void ASpaceshipPawn::setVirtualCursor(FVector2D Value)
 	}
 	
 	const float CursorX = (Value.X * 10.0f) + VirtualCursor.X;
-	const float CursorY = (Value.Y * 10.0f) + VirtualCursor.Y;
+	const float CursorY = (Value.Y * 10.0f) + VirtualCursor.Y;	
 	Radius = ViewportSize.Y / 4.0f;
 	
 	FVector2D Cursor(CursorX, CursorY); 

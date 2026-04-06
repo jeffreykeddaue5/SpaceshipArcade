@@ -25,6 +25,8 @@ public:
 	
 	void SetThrottleInput(float Value);
 	
+	void SetBoostInput(bool Value);
+	
 protected:
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float MaxSpeed = 12000.f;
@@ -38,10 +40,14 @@ protected:
 private:
 	float ThrottleInput = 0.f;
 	float SteeringInput = 0.f;
+	bool  BoostInput    = false;
 	float CurrentAcceleration = 0.0f;
 	float CurrentForwardSpeed = 0.0f;
 	float CurrentRightSpeed = 0.0f;
 	
+	float AccelRate     = 1200.f; // throttle = 1
+	float CoastDecel    = 300.f;  // throttle = 0
+	float BrakeDecel    = 1800.f; // throttle = -1
 	
 	void UpdateSteering(float DeltaTime);
 	

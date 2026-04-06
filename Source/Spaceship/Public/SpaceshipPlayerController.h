@@ -28,13 +28,19 @@ public:
 	UInputAction* ThrottleAction;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UInputAction* BoostAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	UInputAction* BrakeAction;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	UInputAction* LookAroundAction;
 	
+	UPROPERTY(BlueprintReadOnly, Category = Input)
 	float ThrottleValue;
-	
+	UPROPERTY(BlueprintReadOnly, Category = Input)
+	bool BoostValue;
+	UPROPERTY(BlueprintReadOnly, Category = Input)
 	float SteeringValue;
 	
 protected:
@@ -53,6 +59,7 @@ private:
 	float Radius = 0;
 	void Steering(const FInputActionValue& Value);
 	void Throttle(const FInputActionValue& Value);
+	void Boost(const FInputActionValue& Value);
 	void LookAround(const FInputActionValue& Value);
 	
 	

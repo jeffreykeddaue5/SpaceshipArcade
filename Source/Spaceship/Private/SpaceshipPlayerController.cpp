@@ -38,6 +38,10 @@ void ASpaceshipPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(ThrottleAction, ETriggerEvent::Triggered, this, &ASpaceshipPlayerController::Throttle);
 		EnhancedInputComponent->BindAction(ThrottleAction, ETriggerEvent::Completed, this, &ASpaceshipPlayerController::Throttle);
 		
+		// boost
+		EnhancedInputComponent->BindAction(BoostAction, ETriggerEvent::Triggered, this, &ASpaceshipPlayerController::Boost);
+		EnhancedInputComponent->BindAction(BoostAction, ETriggerEvent::Completed, this, &ASpaceshipPlayerController::Boost);
+		
 		// look around 
 		EnhancedInputComponent->BindAction(LookAroundAction, ETriggerEvent::Triggered, this, &ASpaceshipPlayerController::LookAround);
 		
@@ -56,6 +60,11 @@ void ASpaceshipPlayerController::Steering(const FInputActionValue& Value)
 void ASpaceshipPlayerController::Throttle(const FInputActionValue& Value)
 {
 	ThrottleValue = Value.Get<float>();
+}
+
+void ASpaceshipPlayerController::Boost(const FInputActionValue& Value)
+{
+	BoostValue = Value.Get<bool>();
 }
 
 void ASpaceshipPlayerController::LookAround(const FInputActionValue& Value)

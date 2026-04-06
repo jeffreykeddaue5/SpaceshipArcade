@@ -59,7 +59,7 @@ protected:
 	UCameraComponent* BackCamera;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	UStaticMeshComponent* Spaceship;	
+	UStaticMeshComponent* SpaceshipStaticMesh;	
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	USpaceshipMovementComponent* MovementComponent;

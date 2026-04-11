@@ -20,7 +20,17 @@ void USpaceshipMovementComponent::SetSteeringInput(float Value)
 void USpaceshipMovementComponent::SetThrottleInput(float Value)
 {
 	ThrottleInput = Value;
-	UE_LOG(LogSpaceshipMovement, Display, TEXT("Throttle: %f"), ThrottleInput);
+	if (Value == 0.f)
+	{
+		ThrottleButtonState = EButtonState::Idle;
+	}else if (Value == 1.f)
+	{
+		ThrottleButtonState = EButtonState::Forward;
+	}else if (Value == -1.f)
+	{
+		ThrottleButtonState = EButtonState::Backward;
+	}
+	UE_LOG(LogSpaceshipMovement, Display, TEXT("Throttle Input: %f"), ThrottleInput);
 }
 
 void USpaceshipMovementComponent::SetBoostInput(bool Value)
@@ -102,32 +112,30 @@ void USpaceshipMovementComponent::UpdateVelocity(float DeltaTime)
 	const FVector ForwardVector = UpdatedComponent->GetForwardVector();
 	
 	CurrentForwardSpeed = FVector::DotProduct(Velocity, ForwardVector);
+	
+	// create some cvars (Max speed, breake decel, accelrate, coast decel)
+	// create an enum for brake/idle/normal
 
-	if (BoostInput)
-	{
-		AccelRate = 10000.0f;
-		MaxSpeed = 24000.0f;
-	}
-	else
-	{
-		AccelRate = 1200.0f;
-		MaxSpeed = 12000.0f;
-	}
-	if (ThrottleInput > 0.f)
+	//BoostInput
+	
+	if (ThrottleButtonState == EButtonState::Forward)
 	{
 		CurrentForwardSpeed += AccelRate * DeltaTime;
+		
 	}
-	else if (ThrottleInput < 0.f)
+	else if (ThrottleButtonState == EButtonState::Backward)
 	{
 		CurrentForwardSpeed -= BrakeDecel * DeltaTime;
+		
 	}
-	else
+	else if (ThrottleButtonState == EButtonState::Idle)
 	{
-		CurrentForwardSpeed -= CoastDecel * DeltaTime;
+		//CurrentForwardSpeed -= CoastDecel * DeltaTime;
+		//there is no coasting when nothing is pressed,
+		
 	}
 	
-	CurrentForwardSpeed = FMath::Clamp(CurrentForwardSpeed, 0.f, MaxSpeed);
-	
+	CurrentForwardSpeed = FMath::Clamp(CurrentForwardSpeed, 0.f, 1200.f);
 }
 
 void USpaceshipMovementComponent::UpdateRotation(float DeltaTime)

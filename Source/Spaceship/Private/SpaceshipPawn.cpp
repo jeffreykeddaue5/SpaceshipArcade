@@ -95,8 +95,8 @@ void ASpaceshipPawn::setVirtualCursor(FVector2D Value)
 		GEngine->GameViewport->GetViewportSize(ViewportSize);
 	}
 	
-	const float CursorX = (Value.X * 10.0f) + VirtualCursor.X;
-	const float CursorY = (Value.Y * 10.0f) + VirtualCursor.Y;	
+	const float CursorX = (Value.X * 5.0f) + VirtualCursor.X;
+	const float CursorY = (Value.Y * 5.0f) + VirtualCursor.Y;	
 	Radius = ViewportSize.Y / 4.0f;
 	
 	FVector2D Cursor(CursorX, CursorY); 
@@ -115,8 +115,8 @@ void ASpaceshipPawn::setVirtualCursor(FVector2D Value)
 	const float NormalizedX = FMath::Clamp(VirtualCursor.X / Radius, -1.0f, 1.0f);
 	const float NormalizedY = FMath::Clamp(VirtualCursor.Y / Radius, -1.0f, 1.0f);
 	
-	DeltaYaw = NormalizedX * 2;
-	DeltaPitch = NormalizedY * 2;
+	DeltaYaw = NormalizedX;
+	DeltaPitch = NormalizedY;
 }
 
 

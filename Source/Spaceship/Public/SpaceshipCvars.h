@@ -2,5 +2,7 @@
 
 namespace SpaceshipCVars
 {
-	float GetMaxCruiseSpeed();
+	float GetCruiseMaxSpeed();
+	float GetCruiseAccelerationRate();
+	float GetCruiseDecelerationRate();
 }

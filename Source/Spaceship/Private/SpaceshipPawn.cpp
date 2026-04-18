@@ -13,13 +13,6 @@
 
 DEFINE_LOG_CATEGORY(LogSpaceship);
 
-void ASpaceshipPawn::PossessedBy(AController* NewController)
-{
-	Super::PossessedBy(NewController);
-	
-	SpaceshipPlayerController = Cast<ASpaceshipPlayerController>(NewController);
-}
-
 ASpaceshipPawn::ASpaceshipPawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -50,6 +43,37 @@ ASpaceshipPawn::ASpaceshipPawn()
 	
 }
 
+void ASpaceshipPawn::SetupPlayerInputComponent(UInputComponent* InputComponent)
+{
+	Super::SetupPlayerInputComponent(InputComponent);
+	
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
+	{
+		
+		// steering 
+		EnhancedInputComponent->BindAction(SteeringAction, ETriggerEvent::Triggered, this, &ASpaceshipPawn::Steering);
+		EnhancedInputComponent->BindAction(SteeringAction, ETriggerEvent::Completed, this, &ASpaceshipPawn::Steering);
+
+		// throttle 
+		EnhancedInputComponent->BindAction(ThrottleAction, ETriggerEvent::Triggered, this, &ASpaceshipPawn::Throttle);
+		EnhancedInputComponent->BindAction(ThrottleAction, ETriggerEvent::Completed, this, &ASpaceshipPawn::Throttle);
+		
+		// boost
+		EnhancedInputComponent->BindAction(BoostAction, ETriggerEvent::Triggered, this, &ASpaceshipPawn::Boost);
+		EnhancedInputComponent->BindAction(BoostAction, ETriggerEvent::Completed, this, &ASpaceshipPawn::Boost);
+		
+		// look around 
+		EnhancedInputComponent->BindAction(LookAroundAction, ETriggerEvent::Triggered, this, &ASpaceshipPawn::LookAround);
+	}
+	else
+	{
+		UE_LOG(LogSpaceship, Error, TEXT("'%s' Failed to find an Enhanced Input component! "
+								   "This template is built to use the Enhanced Input system. "
+								   "If you intend to use the legacy system, then you will need to update this C++ file."),
+								   *GetNameSafe(this));
+	}
+}
+
 void ASpaceshipPawn::BeginPlay()
 {
 	Super::BeginPlay();
@@ -60,9 +84,9 @@ void ASpaceshipPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	MovementComponent->SetSteeringInput(SpaceshipPlayerController->SteeringValue);
-	MovementComponent->SetThrottleInput(SpaceshipPlayerController->ThrottleValue);
-	MovementComponent->SetBoostInput(SpaceshipPlayerController->BoostValue);
+	MovementComponent->SetSteeringInput(SteeringValue);
+	MovementComponent->SetThrottleInput(ThrottleValue);
+	MovementComponent->SetBoostInput(BoostValue);
 	
 	double CurrentRoll = SpaceshipStaticMesh->GetRelativeRotation().Roll;
 	float TargetRoll = 0.f;
@@ -117,6 +141,27 @@ void ASpaceshipPawn::setVirtualCursor(FVector2D Value)
 	
 	DeltaYaw = NormalizedX;
 	DeltaPitch = NormalizedY;
+}
+
+
+void ASpaceshipPawn::Steering(const FInputActionValue& Value)
+{
+	SteeringValue = Value.Get<float>();
+}
+
+void ASpaceshipPawn::Throttle(const FInputActionValue& Value)
+{
+	ThrottleValue = Value.Get<float>();
+}
+
+void ASpaceshipPawn::Boost(const FInputActionValue& Value)
+{
+	BoostValue = Value.Get<bool>();
+}
+
+void ASpaceshipPawn::LookAround(const FInputActionValue& Value)
+{
+	setVirtualCursor(Value.Get<FVector2D>());
 }
 
 

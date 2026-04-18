@@ -18,30 +18,10 @@ UCLASS(abstract)
 class SPACESHIP_API ASpaceshipPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-
-public:
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	UInputAction* SteeringAction;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	UInputAction* ThrottleAction;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	UInputAction* BoostAction;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	UInputAction* BrakeAction;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	UInputAction* LookAroundAction;
-	
-	UPROPERTY(BlueprintReadOnly, Category = Input)
-	float ThrottleValue;
-	UPROPERTY(BlueprintReadOnly, Category = Input)
-	bool BoostValue;
-	UPROPERTY(BlueprintReadOnly, Category = Input)
-	float SteeringValue;
+	virtual void BeginPlay() override;
+	virtual void SetupInputComponent() override;
+	virtual void OnPossess(APawn* Pawn) override;
 	
 protected:
 	
@@ -49,18 +29,5 @@ protected:
 	UInputMappingContext * InputMappingContext;
 	
 	TObjectPtr<ASpaceshipPawn> SpaceshipPawn;
-	
-	virtual void BeginPlay() override;
-	virtual void SetupInputComponent() override;
-	virtual void OnPossess(APawn* Pawn) override;
-	
-private:
-	
-	float Radius = 0;
-	void Steering(const FInputActionValue& Value);
-	void Throttle(const FInputActionValue& Value);
-	void Boost(const FInputActionValue& Value);
-	void LookAround(const FInputActionValue& Value);
-	
 	
 };

@@ -90,13 +90,13 @@ public:
 	UPROPERTY(EditAnywhere, Replicated, BlueprintReadOnly)
 	float DeltaPitch;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, Replicated, BlueprintReadOnly)
 	float DeltaRoll;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float DeltaMovement;
 	
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Replicated)
 	FVector2D VirtualCursor{0,0};
 	
 	FORCEINLINE USpringArmComponent* GetBackSpringArm() const { return BackSpringArm; }

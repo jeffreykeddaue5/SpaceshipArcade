@@ -17,8 +17,10 @@ DEFINE_LOG_CATEGORY(LogSpaceship);
 
 ASpaceshipPawn::ASpaceshipPawn()
 {
-	bReplicates = true;
 	PrimaryActorTick.bCanEverTick = true;
+	bReplicates = true;
+	AActor::SetReplicateMovement(true);
+	
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
@@ -40,9 +42,11 @@ ASpaceshipPawn::ASpaceshipPawn()
 	
 	SpaceshipStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Spaceship"));
 	SpaceshipStaticMesh->SetupAttachment(RootComponent);
+	SpaceshipStaticMesh->SetIsReplicated(true);
 	
 	MovementComponent = CreateDefaultSubobject<USpaceshipMovementComponent>(TEXT("MovementComponent"));
 	MovementComponent->UpdatedComponent = RootComponent;
+	MovementComponent->SetIsReplicated(true);
 	
 }
 
@@ -83,6 +87,8 @@ void ASpaceshipPawn::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>&
 	
 	DOREPLIFETIME(ASpaceshipPawn, DeltaYaw)
 	DOREPLIFETIME(ASpaceshipPawn, DeltaPitch)
+	DOREPLIFETIME(ASpaceshipPawn, DeltaRoll)
+	DOREPLIFETIME(ASpaceshipPawn, VirtualCursor)
 }
 
 void ASpaceshipPawn::BeginPlay()
@@ -121,7 +127,6 @@ void ASpaceshipPawn::Tick(float DeltaTime)
 	
 	AddActorLocalRotation(FRotator(DeltaPitch * -1, DeltaYaw, 0));
 	SpaceshipStaticMesh->AddRelativeRotation(FRotator(0, 0, DeltaRoll));
-	
 }
 
 void ASpaceshipPawn::setVirtualCursor(FVector2D Value)
@@ -156,7 +161,6 @@ void ASpaceshipPawn::setVirtualCursor(FVector2D Value)
 	DeltaPitch = NormalizedY;
 }
 
-
 void ASpaceshipPawn::Steering(const FInputActionValue& Value)
 {
 	SteeringValue = Value.Get<float>();
@@ -176,7 +180,3 @@ void ASpaceshipPawn::LookAround(const FInputActionValue& Value)
 {
 	setVirtualCursor(Value.Get<FVector2D>());
 }
-
-
-
-

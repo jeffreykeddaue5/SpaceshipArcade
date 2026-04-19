@@ -37,6 +37,8 @@ public:
 	
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 	
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+	
 	virtual void BeginPlay() override;
 	
 	virtual void Tick(float DeltaTime) override;
@@ -82,10 +84,10 @@ private:
 	
 public:
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, Replicated, BlueprintReadOnly)
 	float DeltaYaw;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, Replicated, BlueprintReadOnly)
 	float DeltaPitch;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)

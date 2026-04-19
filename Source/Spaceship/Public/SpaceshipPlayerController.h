@@ -21,13 +21,10 @@ class SPACESHIP_API ASpaceshipPlayerController : public APlayerController
 	
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
-	virtual void OnPossess(APawn* Pawn) override;
 	
 protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputMappingContext * InputMappingContext;
-	
-	TObjectPtr<ASpaceshipPawn> SpaceshipPawn;
 	
 };

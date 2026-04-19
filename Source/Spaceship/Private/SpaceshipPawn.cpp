@@ -10,11 +10,14 @@
 #include "InputActionValue.h"
 #include "SpaceshipMovementComponent.h"
 #include "SpaceshipPlayerController.h"
+#include "GameFramework/PlayerState.h"
+#include "Net/UnrealNetwork.h"
 
 DEFINE_LOG_CATEGORY(LogSpaceship);
 
 ASpaceshipPawn::ASpaceshipPawn()
 {
+	bReplicates = true;
 	PrimaryActorTick.bCanEverTick = true;
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -74,10 +77,20 @@ void ASpaceshipPawn::SetupPlayerInputComponent(UInputComponent* InputComponent)
 	}
 }
 
+void ASpaceshipPawn::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	
+	DOREPLIFETIME(ASpaceshipPawn, DeltaYaw)
+	DOREPLIFETIME(ASpaceshipPawn, DeltaPitch)
+}
+
 void ASpaceshipPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	UE_LOG(LogTemp, Warning, TEXT("Pawn Spawned: %s NetMode: %d"),
+	*GetName(),
+	GetNetMode());
 }
 
 void ASpaceshipPawn::Tick(float DeltaTime)

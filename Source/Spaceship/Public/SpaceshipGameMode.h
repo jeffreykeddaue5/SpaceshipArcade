@@ -14,4 +14,10 @@ class SPACESHIP_API ASpaceshipGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+	
+public:
+	ASpaceshipGameMode();
+	
+	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
+	
 };

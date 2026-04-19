@@ -69,7 +69,6 @@ void USpaceshipMovementComponent::TickComponent(
 	}
 }
 
-
 void USpaceshipMovementComponent::UpdateSteering(float DeltaTime)
 {
 	const FVector RightVector = UpdatedComponent->GetRightVector();
@@ -128,7 +127,6 @@ void USpaceshipMovementComponent::UpdateVelocity(float DeltaTime)
 	
 	CurrentForwardSpeed = FMath::Clamp(CurrentForwardSpeed, 0.f, SpaceshipCVars::GetCruiseMaxSpeed());
 }
-
 
 void USpaceshipMovementComponent::UpdateRotation(float DeltaTime)
 {

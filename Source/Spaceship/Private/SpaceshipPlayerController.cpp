@@ -12,12 +12,6 @@ void ASpaceshipPlayerController::BeginPlay()
 	Super::BeginPlay();
 }
 
-void ASpaceshipPlayerController::OnPossess(APawn* Pawn)
-{
-	Super::OnPossess(Pawn);
-	SpaceshipPawn = CastChecked<ASpaceshipPawn>(Pawn);
-}
-
 void ASpaceshipPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();

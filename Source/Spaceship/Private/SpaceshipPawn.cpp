@@ -95,12 +95,13 @@ void ASpaceshipPawn::Boost(const FInputActionValue& Value)
 
 void ASpaceshipPawn::LookAround(const FInputActionValue& Value)
 {
-	LookAroundValue = Value.Get<FVector2D>();
-	setVirtualCursor(LookAroundValue);
-	if (IsLocallyControlled())
-	{
-		Server_UpdateLookAround(LookAroundValue);
-	}
+	if (!IsLocallyControlled())
+		return;
+
+	FVector2D Input = Value.Get<FVector2D>();
+
+	setVirtualCursor(Input);
+	Server_UpdateLookAround(DeltaYaw, DeltaPitch);
 }
 
 void ASpaceshipPawn::Server_UpdateBoost_Implementation(bool Value)
@@ -118,9 +119,10 @@ void ASpaceshipPawn::Server_UpdateThrottle_Implementation(float Value)
 	ThrottleValue = Value;
 }
 
-void ASpaceshipPawn::Server_UpdateLookAround_Implementation(FVector2D Value)
+void ASpaceshipPawn::Server_UpdateLookAround_Implementation(float Yaw, float Pitch)
 {
-	setVirtualCursor(Value);
+	DeltaYaw = Yaw;
+	DeltaPitch = Pitch;
 }
 
 void ASpaceshipPawn::setVirtualCursor(FVector2D Value)
@@ -157,8 +159,6 @@ void ASpaceshipPawn::setVirtualCursor(FVector2D Value)
 	DeltaPitch = NormalizedY;
 }
 
-
-
 void ASpaceshipPawn::BeginPlay()
 {
 	Super::BeginPlay();
@@ -172,7 +172,7 @@ void ASpaceshipPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	if (IsLocallyControlled() || HasAuthority())
+	if (HasAuthority() || IsLocallyControlled())
 	{
 		MovementComponent->SetSteeringInput(SteeringValue);
 		MovementComponent->SetThrottleInput(ThrottleValue);

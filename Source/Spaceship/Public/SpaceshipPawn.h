@@ -79,7 +79,7 @@ protected:
 
 	// Server RPCs
 	UFUNCTION(Server, Reliable)
-	void Server_UpdateLookAround(FVector2D Value);
+	void Server_UpdateLookAround(float Yaw, float Pitch);
 	
 	UFUNCTION(Server, Unreliable)
 	void Server_UpdateThrottle(float Value);

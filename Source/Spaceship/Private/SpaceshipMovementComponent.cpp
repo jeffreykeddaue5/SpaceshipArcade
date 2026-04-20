@@ -89,7 +89,7 @@ void USpaceshipMovementComponent::TickComponent(
 
 	UpdateVelocity(DeltaTime);
 	UpdateSteering(DeltaTime);
-	UpdateRotation(DeltaTime);
+	//UpdateRotation(DeltaTime);
 
 	const FVector ForwardVector = UpdatedComponent->GetForwardVector();
 	const FVector RightVector   = UpdatedComponent->GetRightVector();
@@ -101,15 +101,13 @@ void USpaceshipMovementComponent::TickComponent(
 	const FVector Delta = Velocity * DeltaTime;
 
 	FRotator RotationDelta(-LookPitch, LookYaw, 0.f);
-	FQuat NewRotation =
-		FQuat(RotationDelta) *
-		UpdatedComponent->GetComponentQuat();
+	UpdatedComponent->AddLocalRotation(FRotator(RotationDelta));
 
 	FHitResult Hit;
 
 	SafeMoveUpdatedComponent(
 		Delta,
-		NewRotation,
+		UpdatedComponent->GetComponentQuat(),
 		true,
 		Hit);
 
@@ -175,12 +173,12 @@ void USpaceshipMovementComponent::UpdateRotation(float DeltaTime)
 
 	float TargetRoll = 0.f;
 
-	if (FMath::Abs(LookYaw) > 0.3f)
+	if (FMath::Abs(LookYaw / 2) > 0.3f)
 	{
 		TargetRoll = (LookYaw * 0.5f) * MaxRoll;
 	}
 
-	float NewRoll = FMath::FInterpTo(CurrentRoll, TargetRoll, DeltaTime, 5.f);
+	float NewRoll = FMath::FInterpTo(CurrentRoll, TargetRoll, DeltaTime, 1.f);
 	NewRoll = FMath::Clamp(NewRoll, MinRoll, MaxRoll);
 
 	SpaceshipStaticMesh->SetRelativeRotation(FRotator(0.f, 0.f, NewRoll));

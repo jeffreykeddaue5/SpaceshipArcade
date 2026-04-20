@@ -19,6 +19,7 @@ class SPACESHIP_API ASpaceshipPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
+	virtual void OnPossess(APawn* InPawn) override;
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 	

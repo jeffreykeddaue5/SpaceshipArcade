@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "SpaceshipGameMode.h"
 #include "SpaceshipPawn.h"
 #include "GameFramework/PlayerStart.h"
@@ -18,14 +15,24 @@ AActor* ASpaceshipGameMode::ChoosePlayerStart_Implementation(AController* Player
 	UGameplayStatics::GetAllActorsOfClass(this, APlayerStart::StaticClass(), Starts);
 
 	if (Starts.Num() == 0)
-		return Super::ChoosePlayerStart(Player);
+	{
+		return Super::ChoosePlayerStart_Implementation(Player);
+	}
 	
 	Starts.Sort([](const AActor& A, const AActor& B)
 	{
 		return A.GetName() < B.GetName();
 	});
 
-	const int32 PlayerIndex = Player->PlayerState->GetPlayerId();
+	int32 PlayerIndex = 0;
 
-	return Starts[PlayerIndex % Starts.Num()];
+	if (Player && Player->PlayerState)
+	{
+		PlayerIndex = Player->PlayerState->GetPlayerId();
+	}
+
+	PlayerIndex = FMath::Abs(PlayerIndex);
+	const int32 StartIndex = PlayerIndex % Starts.Num();
+
+	return Starts[StartIndex];
 }

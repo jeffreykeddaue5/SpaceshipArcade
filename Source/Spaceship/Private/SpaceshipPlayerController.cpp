@@ -7,6 +7,11 @@
 #include "EnhancedInputSubsystems.h"
 #include "SpaceshipPawn.h"
 
+void ASpaceshipPlayerController::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+}
+
 void ASpaceshipPlayerController::BeginPlay()
 {
 	Super::BeginPlay();

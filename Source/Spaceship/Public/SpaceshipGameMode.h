@@ -18,6 +18,7 @@ class SPACESHIP_API ASpaceshipGameMode : public AGameModeBase
 public:
 	ASpaceshipGameMode();
 	
+protected:
 	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 	
 };

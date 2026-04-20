@@ -1,9 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "SpaceshipMovementComponent.h"
-
-#include <ThirdParty/msdfgen/msdfgen.h>
+#include "GameFramework/Actor.h"
+#include "Components/StaticMeshComponent.h"
 
 DEFINE_LOG_CATEGORY(LogSpaceshipMovement);
 
@@ -12,23 +9,59 @@ USpaceshipMovementComponent::USpaceshipMovementComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
+void USpaceshipMovementComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	PawnOwner = Cast<APawn>(GetOwner());
+
+	if (PawnOwner)
+	{
+		UpdatedComponent = PawnOwner->GetRootComponent();
+
+		SpaceshipStaticMesh = PawnOwner->FindComponentByClass<UStaticMeshComponent>();
+	}
+}
+
+void USpaceshipMovementComponent::SetLookInput(float Yaw, float Pitch)
+{
+	LookYaw = Yaw;
+	LookPitch = Pitch;
+}
+
 void USpaceshipMovementComponent::SetSteeringInput(float Value)
 {
 	SteeringInput = Value;
+	UE_LOG(LogSpaceshipMovement, Log, TEXT("Steering Input: %f"), Value);
+	if (Value > 0.f)
+	{
+		StrifeButtonState = EStrifeButtonState::Right;
+	}
+	else if (Value < 0.f)
+	{
+		StrifeButtonState = EStrifeButtonState::Left;
+	}
+	else
+	{
+		StrifeButtonState = EStrifeButtonState::Idle;
+	}
 }
 
 void USpaceshipMovementComponent::SetThrottleInput(float Value)
 {
 	ThrottleInput = Value;
-	if (Value == 0.f)
+	UE_LOG(LogSpaceshipMovement, Log, TEXT("Throttle Input: %f"), Value);
+	if (Value > 0.f)
 	{
-		ThrottleButtonState = EButtonState::Idle;
-	}else if (Value == 1.f)
+		ThrottleButtonState = EThrottleButtonState::Forward;
+	}
+	else if (Value < 0.f)
 	{
-		ThrottleButtonState = EButtonState::Forward;
-	}else if (Value == -1.f)
+		ThrottleButtonState = EThrottleButtonState::Backward;
+	}
+	else
 	{
-		ThrottleButtonState = EButtonState::Backward;
+		ThrottleButtonState = EThrottleButtonState::Idle;
 	}
 }
 
@@ -49,19 +82,36 @@ void USpaceshipMovementComponent::TickComponent(
 		return;
 	}
 	
+	if (!PawnOwner->HasAuthority() && !PawnOwner->IsLocallyControlled())
+	{
+		return;
+	}
+
 	UpdateVelocity(DeltaTime);
 	UpdateSteering(DeltaTime);
-	
+	UpdateRotation(DeltaTime);
+
 	const FVector ForwardVector = UpdatedComponent->GetForwardVector();
 	const FVector RightVector   = UpdatedComponent->GetRightVector();
 	
 	Velocity =
-			(ForwardVector * CurrentForwardSpeed) +
-			(RightVector   * CurrentRightSpeed);
-	
+	(ForwardVector * CurrentForwardSpeed) +
+	(RightVector   * CurrentRightSpeed);
+
 	const FVector Delta = Velocity * DeltaTime;
+
+	FRotator RotationDelta(-LookPitch, LookYaw, 0.f);
+	FQuat NewRotation =
+		FQuat(RotationDelta) *
+		UpdatedComponent->GetComponentQuat();
+
 	FHitResult Hit;
-	SafeMoveUpdatedComponent(Delta, UpdatedComponent->GetComponentQuat(), true, Hit);
+
+	SafeMoveUpdatedComponent(
+		Delta,
+		NewRotation,
+		true,
+		Hit);
 
 	if (Hit.IsValidBlockingHit())
 	{
@@ -69,66 +119,69 @@ void USpaceshipMovementComponent::TickComponent(
 	}
 }
 
-void USpaceshipMovementComponent::UpdateSteering(float DeltaTime)
-{
-	const FVector RightVector = UpdatedComponent->GetRightVector();
-	
-	CurrentRightSpeed = FVector::DotProduct(Velocity, RightVector);
-	
-	AccelRate = 1000.f;
-	constexpr float MaxSideSpeed = 900.f;
-	
-	if (SteeringInput > 0.f)
-	{
-		CurrentRightSpeed += AccelRate * DeltaTime; 
-	}
-	else if (SteeringInput < 0.f)
-	{
-		CurrentRightSpeed -= AccelRate * DeltaTime;
-	}
-	else
-	{
-		if ((CurrentRightSpeed - (AccelRate * DeltaTime)) > 0)
-		{
-			CurrentRightSpeed -= AccelRate * DeltaTime;
-		}
-		else if ((CurrentRightSpeed + (AccelRate * DeltaTime)) < 0)
-		{
-			CurrentRightSpeed += AccelRate * DeltaTime;
-		}
-		else
-		{
-			CurrentRightSpeed = 0;
-		}
-	}
-	
-	CurrentRightSpeed = FMath::Clamp(CurrentRightSpeed, -MaxSideSpeed, MaxSideSpeed);
-}
-
 void USpaceshipMovementComponent::UpdateVelocity(float DeltaTime)
 {
-	const FVector ForwardVector = UpdatedComponent->GetForwardVector();
-	
-	CurrentForwardSpeed = FVector::DotProduct(Velocity, ForwardVector);
-	
-	//BoostInput
-	if (ThrottleButtonState == EButtonState::Forward)
+	const float Accel = SpaceshipCVars::GetCruiseAccelerationRate();
+	const float Decel = SpaceshipCVars::GetCruiseDecelerationRate();
+	const float MaxSpeeds = SpaceshipCVars::GetCruiseMaxSpeed();
+
+	switch (ThrottleButtonState)
 	{
-		CurrentForwardSpeed += SpaceshipCVars::GetCruiseAccelerationRate() * DeltaTime;
+	case EThrottleButtonState::Forward:
+		CurrentForwardSpeed += Accel * DeltaTime;
+		break;
+
+	case EThrottleButtonState::Backward:
+		CurrentForwardSpeed -= Decel * DeltaTime;
+		break;
+
+	case EThrottleButtonState::Idle:
+		CurrentForwardSpeed = FMath::FInterpTo(CurrentForwardSpeed, 0.f, DeltaTime, 0.5f);
+		break;
 	}
-	else if (ThrottleButtonState == EButtonState::Backward)
+
+	CurrentForwardSpeed = FMath::Clamp(CurrentForwardSpeed, -MaxSpeeds, MaxSpeeds);
+}
+
+void USpaceshipMovementComponent::UpdateSteering(float DeltaTime)
+{
+	const float AccelRatfe = 1000.f;
+	const float MaxSideSpeed = 900.f;
+
+	switch (StrifeButtonState)
 	{
-		CurrentForwardSpeed -= SpaceshipCVars::GetCruiseDecelerationRate() * DeltaTime;
+	case EStrifeButtonState::Right:
+		CurrentRightSpeed += AccelRatfe * DeltaTime;
+		break;
+		
+	case EStrifeButtonState::Left:
+		CurrentRightSpeed -= AccelRatfe * DeltaTime;
+		break;
+		
+	case EStrifeButtonState::Idle:
+		CurrentRightSpeed = 0;
+		break;
 	}
-	else if (ThrottleButtonState == EButtonState::Idle)
-	{
-		//there is no coasting when nothing is pressed, and the ship continues to go forward
-	}
-	
-	CurrentForwardSpeed = FMath::Clamp(CurrentForwardSpeed, 0.f, SpaceshipCVars::GetCruiseMaxSpeed());
+	CurrentRightSpeed = FMath::Clamp(CurrentRightSpeed, -MaxSideSpeed, MaxSideSpeed);
 }
 
 void USpaceshipMovementComponent::UpdateRotation(float DeltaTime)
 {
-	
+	if (!SpaceshipStaticMesh)
+	{
+		return;
+	}
+	float CurrentRoll = SpaceshipStaticMesh->GetRelativeRotation().Roll;
+
+	float TargetRoll = 0.f;
+
+	if (FMath::Abs(LookYaw) > 0.3f)
+	{
+		TargetRoll = (LookYaw * 0.5f) * MaxRoll;
+	}
+
+	float NewRoll = FMath::FInterpTo(CurrentRoll, TargetRoll, DeltaTime, 5.f);
+	NewRoll = FMath::Clamp(NewRoll, MinRoll, MaxRoll);
+
+	SpaceshipStaticMesh->SetRelativeRotation(FRotator(0.f, 0.f, NewRoll));
 }

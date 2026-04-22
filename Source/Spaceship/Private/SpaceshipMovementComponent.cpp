@@ -18,7 +18,6 @@ void USpaceshipMovementComponent::BeginPlay()
 	if (PawnOwner)
 	{
 		UpdatedComponent = PawnOwner->GetRootComponent();
-
 		SpaceshipStaticMesh = PawnOwner->FindComponentByClass<UStaticMeshComponent>();
 	}
 }
@@ -89,7 +88,7 @@ void USpaceshipMovementComponent::TickComponent(
 
 	UpdateVelocity(DeltaTime);
 	UpdateSteering(DeltaTime);
-	//UpdateRotation(DeltaTime);
+	UpdateRotation(DeltaTime);
 
 	const FVector ForwardVector = UpdatedComponent->GetForwardVector();
 	const FVector RightVector   = UpdatedComponent->GetRightVector();
@@ -143,17 +142,17 @@ void USpaceshipMovementComponent::UpdateVelocity(float DeltaTime)
 
 void USpaceshipMovementComponent::UpdateSteering(float DeltaTime)
 {
-	const float AccelRatfe = 1000.f;
-	const float MaxSideSpeed = 900.f;
+	constexpr float Acceleration = 1000.f;
+	constexpr float MaxSideSpeed = 900.f;
 
 	switch (StrifeButtonState)
 	{
 	case EStrifeButtonState::Right:
-		CurrentRightSpeed += AccelRatfe * DeltaTime;
+		CurrentRightSpeed += Acceleration * DeltaTime;
 		break;
 		
 	case EStrifeButtonState::Left:
-		CurrentRightSpeed -= AccelRatfe * DeltaTime;
+		CurrentRightSpeed -= Acceleration * DeltaTime;
 		break;
 		
 	case EStrifeButtonState::Idle:
@@ -163,23 +162,19 @@ void USpaceshipMovementComponent::UpdateSteering(float DeltaTime)
 	CurrentRightSpeed = FMath::Clamp(CurrentRightSpeed, -MaxSideSpeed, MaxSideSpeed);
 }
 
-void USpaceshipMovementComponent::UpdateRotation(float DeltaTime)
+void USpaceshipMovementComponent::UpdateRotation(float DeltaTime) 
 {
 	if (!SpaceshipStaticMesh)
 	{
 		return;
 	}
-	float CurrentRoll = SpaceshipStaticMesh->GetRelativeRotation().Roll;
+	
+	float TargetRoll = LookYaw * 45.f;
 
-	float TargetRoll = 0.f;
+	FRotator Current = SpaceshipStaticMesh->GetRelativeRotation();
+	FRotator Target = FRotator(Current.Pitch, Current.Yaw, TargetRoll);
 
-	if (FMath::Abs(LookYaw / 2) > 0.3f)
-	{
-		TargetRoll = (LookYaw * 0.5f) * MaxRoll;
-	}
+	FRotator NewRot = FMath::RInterpTo(Current, Target, DeltaTime, 5.f);
 
-	float NewRoll = FMath::FInterpTo(CurrentRoll, TargetRoll, DeltaTime, 1.f);
-	NewRoll = FMath::Clamp(NewRoll, MinRoll, MaxRoll);
-
-	SpaceshipStaticMesh->SetRelativeRotation(FRotator(0.f, 0.f, NewRoll));
+	SpaceshipStaticMesh->SetRelativeRotation(NewRot);
 }

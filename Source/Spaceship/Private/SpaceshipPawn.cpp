@@ -37,6 +37,7 @@ ASpaceshipPawn::ASpaceshipPawn()
 
 	SpaceshipStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Spaceship"));
 	SpaceshipStaticMesh->SetupAttachment(RootComponent);
+	SpaceshipStaticMesh->SetIsReplicated(true);
 
 	MovementComponent = CreateDefaultSubobject<USpaceshipMovementComponent>(TEXT("MovementComponent"));
 	MovementComponent->UpdatedComponent = RootComponent;
@@ -191,33 +192,4 @@ void ASpaceshipPawn::Tick(float DeltaTime)
 			50.f
 		);
 	}
-	
-	/*
-	float CurrentRoll =
-		SpaceshipStaticMesh->GetRelativeRotation().Roll;
-	
-	float TargetRoll = 0.f;
-	
-	if (FMath::Abs(DeltaYaw / 2.f) > 0.3f)
-	{
-		TargetRoll = (DeltaYaw / 2.f) * maxRoll;
-	}
-	
-	float NewRoll = FMath::FInterpTo(
-		CurrentRoll,
-		TargetRoll,
-		DeltaTime,
-		1.f);
-	
-	NewRoll = FMath::Clamp(NewRoll,
-		(float)minRoll,
-		(float)maxRoll);
-	
-	AddActorLocalRotation(
-		FRotator(DeltaPitch * -1.f, DeltaYaw, 0.f));
-	
-	SpaceshipStaticMesh->SetRelativeRotation(
-		FRotator(0.f, 0.f, NewRoll));
-		
-		*/
 }

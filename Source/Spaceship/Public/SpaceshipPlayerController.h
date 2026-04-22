@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "SpaceshipPlayerController.generated.h"
 
+class UHUDWidget;
 struct FInputActionValue;
 class UInputAction;
 class ASpaceshipPawn;
@@ -27,5 +28,15 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputMappingContext * InputMappingContext;
+	
+private:
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Widget")
+	TSubclassOf<UHUDWidget> HUDWidgetClass;
+	
+	UPROPERTY()
+	TObjectPtr<UHUDWidget> HUDWidget;
+	
+	void CreateHUDWidget();
 	
 };

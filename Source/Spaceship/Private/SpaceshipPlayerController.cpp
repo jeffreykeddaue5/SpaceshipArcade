@@ -6,6 +6,8 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "SpaceshipPawn.h"
+#include "Blueprint/UserWidget.h"
+#include "HUDWidget.h"
 
 void ASpaceshipPlayerController::OnPossess(APawn* InPawn)
 {
@@ -15,6 +17,7 @@ void ASpaceshipPlayerController::OnPossess(APawn* InPawn)
 void ASpaceshipPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	CreateHUDWidget();
 }
 
 void ASpaceshipPlayerController::SetupInputComponent()
@@ -26,3 +29,21 @@ void ASpaceshipPlayerController::SetupInputComponent()
 		Subsystem->AddMappingContext(InputMappingContext, 0);
 	}
 }
+
+void ASpaceshipPlayerController::CreateHUDWidget()
+{
+	if (!IsLocalPlayerController())
+	{
+		return;
+	}
+	
+	HUDWidget = CreateWidget<UHUDWidget>(this, HUDWidgetClass);
+	
+	if (IsValid(HUDWidget))
+	{
+		HUDWidget->AddToViewport();
+	}
+	
+}
+
+

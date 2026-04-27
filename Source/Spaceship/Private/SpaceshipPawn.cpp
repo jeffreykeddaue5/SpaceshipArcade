@@ -163,10 +163,6 @@ void ASpaceshipPawn::setVirtualCursor(FVector2D Value)
 void ASpaceshipPawn::BeginPlay()
 {
 	Super::BeginPlay();
-
-	UE_LOG(LogTemp, Warning, TEXT("Pawn Spawned: %s NetMode: %d"),
-		*GetName(),
-		GetNetMode());
 }
 
 void ASpaceshipPawn::Tick(float DeltaTime)
@@ -180,16 +176,16 @@ void ASpaceshipPawn::Tick(float DeltaTime)
 		MovementComponent->SetBoostInput(BoostValue);
 		MovementComponent->SetLookInput(DeltaYaw, DeltaPitch);
 		
-		DrawDebugDirectionalArrow(
-			GetWorld(),
-			GetActorLocation(),
-			GetActorLocation() + GetActorForwardVector() * 400.f,
-			50.f,
-			FColor::Red,
-			true,
-			-1.0,
-			0,
-			50.f
-		);
+		// DrawDebugDirectionalArrow(
+		// 	GetWorld(),
+		// 	GetActorLocation(),
+		// 	GetActorLocation() + GetActorForwardVector() * 400.f,
+		// 	50.f,
+		// 	FColor::Red,
+		// 	true,
+		// 	-1.0,
+		// 	0,
+		// 	50.f
+		// );
 	}
 }

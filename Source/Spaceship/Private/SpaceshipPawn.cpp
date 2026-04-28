@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "SpaceshipMovementComponent.h"
+#include "Net/UnrealNetwork.h"
 
 DEFINE_LOG_CATEGORY(LogSpaceship);
 
@@ -14,7 +15,6 @@ ASpaceshipPawn::ASpaceshipPawn()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	bReplicates = true;
-	AActor::SetReplicateMovement(true);
 
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -47,6 +47,13 @@ ASpaceshipPawn::ASpaceshipPawn()
 void ASpaceshipPawn::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	
+	DOREPLIFETIME(ASpaceshipPawn, ThrottleValue);
+	DOREPLIFETIME(ASpaceshipPawn, BoostValue);
+	DOREPLIFETIME(ASpaceshipPawn, SteeringValue);
+	DOREPLIFETIME(ASpaceshipPawn, LookAroundValue);
+	DOREPLIFETIME(ASpaceshipPawn, ServerState);
+	
 }
 
 void ASpaceshipPawn::SetupPlayerInputComponent(UInputComponent* InputComponent)
@@ -67,6 +74,35 @@ void ASpaceshipPawn::SetupPlayerInputComponent(UInputComponent* InputComponent)
 		EnhancedInputComponent->BindAction(LookAroundAction, ETriggerEvent::Triggered, this, &ASpaceshipPawn::LookAround);
 	}
 }
+
+void ASpaceshipPawn::OnRep_ServerState()
+{
+	if (IsLocallyControlled())
+	{
+		return; // prediction already correct
+	}
+	
+	UE_LOG(LogSpaceship, Warning, TEXT("CLIENT received state"));
+	
+	SnapshotBuffer.Add(ServerState);
+	DrawDebugDirectionalArrow(
+		GetWorld(),
+		ServerState.Location,
+		ServerState.Location + GetActorForwardVector() * 200,
+		40,
+		FColor::Red,
+		true,
+		-1,
+		0,
+		50.0
+	);
+	
+	if (SnapshotBuffer.Num() > 20)
+	{
+		SnapshotBuffer.RemoveAt(0);
+	}
+}
+
 void ASpaceshipPawn::Steering(const FInputActionValue& Value)
 {
 	SteeringValue = Value.Get<float>();
@@ -169,23 +205,28 @@ void ASpaceshipPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	if (HasAuthority() || IsLocallyControlled())
+	MovementComponent->SetSteeringInput(SteeringValue);
+	MovementComponent->SetThrottleInput(ThrottleValue);
+	MovementComponent->SetBoostInput(BoostValue);
+	MovementComponent->SetLookInput(DeltaYaw, DeltaPitch);
+	
+	if (HasAuthority())
 	{
-		MovementComponent->SetSteeringInput(SteeringValue);
-		MovementComponent->SetThrottleInput(ThrottleValue);
-		MovementComponent->SetBoostInput(BoostValue);
-		MovementComponent->SetLookInput(DeltaYaw, DeltaPitch);
-		
-		// DrawDebugDirectionalArrow(
-		// 	GetWorld(),
-		// 	GetActorLocation(),
-		// 	GetActorLocation() + GetActorForwardVector() * 400.f,
-		// 	50.f,
-		// 	FColor::Red,
-		// 	true,
-		// 	-1.0,
-		// 	0,
-		// 	50.f
-		// );
+		UE_LOG(LogSpaceship, Log, TEXT("SERVER updating state"));
+		FShipState NewState;
+
+		NewState.Location = GetActorLocation();
+		NewState.Rotation = GetActorRotation();
+		NewState.Velocity = MovementComponent->Velocity;
+		NewState.TimeStamp = GetWorld()->GetTimeSeconds();
+
+		ServerState = NewState; 
+	}
+	
+	if (!HasAuthority() && !IsLocallyControlled() && SnapshotBuffer.Num() > 0)
+	{
+		UE_LOG(LogSpaceship, Log,
+			TEXT("ServerState Location %s"),
+			*SnapshotBuffer.Last().Location.ToString());
 	}
 }

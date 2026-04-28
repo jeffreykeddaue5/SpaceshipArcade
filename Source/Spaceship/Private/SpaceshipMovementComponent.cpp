@@ -31,7 +31,6 @@ void USpaceshipMovementComponent::SetLookInput(float Yaw, float Pitch)
 void USpaceshipMovementComponent::SetSteeringInput(float Value)
 {
 	SteeringInput = Value;
-	UE_LOG(LogSpaceshipMovement, Log, TEXT("Steering Input: %f"), Value);
 	if (Value > 0.f)
 	{
 		StrifeButtonState = EStrifeButtonState::Right;
@@ -49,7 +48,6 @@ void USpaceshipMovementComponent::SetSteeringInput(float Value)
 void USpaceshipMovementComponent::SetThrottleInput(float Value)
 {
 	ThrottleInput = Value;
-	UE_LOG(LogSpaceshipMovement, Log, TEXT("Throttle Input: %f"), Value);
 	if (Value > 0.f)
 	{
 		ThrottleButtonState = EThrottleButtonState::Forward;
@@ -81,11 +79,6 @@ void USpaceshipMovementComponent::TickComponent(
 		return;
 	}
 	
-	if (!PawnOwner->HasAuthority() && !PawnOwner->IsLocallyControlled())
-	{
-		return;
-	}
-
 	UpdateVelocity(DeltaTime);
 	UpdateSteering(DeltaTime);
 	UpdateRotation(DeltaTime);
@@ -160,9 +153,9 @@ void USpaceshipMovementComponent::UpdateSteering(float DeltaTime)
 		break;
 	}
 	CurrentRightSpeed = FMath::Clamp(CurrentRightSpeed, -MaxSideSpeed, MaxSideSpeed);
-}
+}	
 
-void USpaceshipMovementComponent::UpdateRotation(float DeltaTime) 
+void USpaceshipMovementComponent::UpdateRotation(float DeltaTime) const
 {
 	if (!SpaceshipStaticMesh)
 	{

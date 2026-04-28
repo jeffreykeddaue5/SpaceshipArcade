@@ -13,6 +13,24 @@ struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogSpaceship, Log, All);
 
+USTRUCT(Blueprintable)
+struct FShipState
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly)
+	FVector Location{0};
+
+	UPROPERTY(BlueprintReadOnly)
+	FRotator Rotation{0};
+
+	UPROPERTY(BlueprintReadOnly)
+	FVector Velocity{0};
+	
+	UPROPERTY(BlueprintReadOnly)
+	float TimeStamp{0};
+};
+
 UCLASS(abstract)
 class SPACESHIP_API ASpaceshipPawn : public APawn
 {
@@ -59,17 +77,26 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	UInputAction* LookAroundAction;
 	
-	UPROPERTY(BlueprintReadOnly, Category = Input)
+	UPROPERTY(BlueprintReadOnly, Replicated, Category = Input)
 	float ThrottleValue = 0.f;
 
-	UPROPERTY(BlueprintReadOnly, Category = Input)
+	UPROPERTY(BlueprintReadOnly, Replicated, Category = Input)
 	bool BoostValue = false;
 
-	UPROPERTY(BlueprintReadOnly, Category = Input)
+	UPROPERTY(BlueprintReadOnly, Replicated, Category = Input)
 	float SteeringValue = 0.f;
 	
-	UPROPERTY(BlueprintReadOnly, Category = Input)
-	FVector2D LookAroundValue;
+	UPROPERTY(BlueprintReadOnly, Replicated, Category = Input)
+	FVector2D LookAroundValue{};
+	
+	UPROPERTY(ReplicatedUsing=OnRep_ServerState)
+	FShipState ServerState;
+
+	UFUNCTION()
+	void OnRep_ServerState();
+	
+	UPROPERTY(BlueprintReadOnly,Category=Movement)
+	TArray<FShipState> SnapshotBuffer;
 
 	// Input handlers
 	void Steering(const FInputActionValue& Value);

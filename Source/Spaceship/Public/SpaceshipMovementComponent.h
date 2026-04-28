@@ -54,9 +54,10 @@ public:
 	void SetBoostInput(bool Value);
 	void SetLookInput(float Yaw, float Pitch);
 	
+	UStaticMeshComponent* SpaceshipStaticMesh;
+	
 protected:
 	
-	UStaticMeshComponent* SpaceshipStaticMesh;
 	
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float MaxSpeed = 12000.f;
@@ -80,5 +81,5 @@ private:
 	
 	void UpdateSteering(float DeltaTime);
 	void UpdateVelocity(float DeltaTime);
-	void UpdateRotation(float DeltaTime);
+	void UpdateRotation(float DeltaTime) const;
 };

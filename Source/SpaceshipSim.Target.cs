@@ -8,9 +8,9 @@ public class SpaceshipSimTarget : TargetRules
 	public SpaceshipSimTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
-		DefaultBuildSettings = BuildSettingsVersion.V5;
-		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_4;
-		ExtraModuleNames.Add("SpaceshipSim, Spaceship");
+		DefaultBuildSettings = BuildSettingsVersion.V7;
+		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_8;
+		ExtraModuleNames.Add("SpaceshipSim");
 		RegisterModulesCreatedByRider();
 	}
 

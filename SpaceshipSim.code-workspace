@@ -6,12 +6,19 @@
 		},
 		{
 			"name": "UE5",
-			"path": "/home/jeffy/UnrealEngine"
+			"path": "/home/jeffy/UnrealEngine5_8"
 		}
 	],
 	"settings": {
-		"typescript.tsc.autoDetect": "off",
-		"npm.autoDetect": "off"
+		"js/ts.tsc.autoDetect": "off",
+		"npm.autoDetect": "off",
+		"terminal.integrated.env.linux": {
+			"PATH": "/home/jeffy/UnrealEngine5_8/Engine/Binaries/ThirdParty/DotNet/10.0/linux-x64:${env:PATH}",
+			"DOTNET_ROOT": "/home/jeffy/UnrealEngine5_8/Engine/Binaries/ThirdParty/DotNet/10.0/linux-x64",
+			"DOTNET_HOST_PATH": "/home/jeffy/UnrealEngine5_8/Engine/Binaries/ThirdParty/DotNet/10.0/linux-x64/dotnet",
+			"DOTNET_MULTILEVEL_LOOKUP": "0",
+			"DOTNET_ROLL_FORWARD": "LatestMajor"
+		}
 	},
 	"extensions": {
 		"recommendations": [
@@ -36,7 +43,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -56,7 +63,7 @@
 				],
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -74,7 +81,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -91,7 +98,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -111,7 +118,7 @@
 				],
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -129,7 +136,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -146,7 +153,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -166,7 +173,7 @@
 				],
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -184,7 +191,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -201,7 +208,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -221,7 +228,7 @@
 				],
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -239,7 +246,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -256,7 +263,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -276,7 +283,7 @@
 				],
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -294,7 +301,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -311,7 +318,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -331,7 +338,7 @@
 				],
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -349,7 +356,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -366,7 +373,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -386,7 +393,7 @@
 				],
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -404,7 +411,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -421,7 +428,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -441,7 +448,7 @@
 				],
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -459,7 +466,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -476,7 +483,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -496,7 +503,7 @@
 				],
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -514,7 +521,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -531,7 +538,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -551,7 +558,7 @@
 				],
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -569,7 +576,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -586,7 +593,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -606,7 +613,7 @@
 				],
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -624,7 +631,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -641,7 +648,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -661,7 +668,7 @@
 				],
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -679,7 +686,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -696,7 +703,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -716,7 +723,7 @@
 				],
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			},
 			{
@@ -734,7 +741,7 @@
 				"problemMatcher": "$msCompile",
 				"type": "shell",
 				"options": {
-					"cwd": "/home/jeffy/UnrealEngine"
+					"cwd": "/home/jeffy/UnrealEngine5_8"
 				}
 			}
 		]
@@ -749,9 +756,9 @@
 				"preLaunchTask": "SpaceshipSim Linux Debug Build",
 				"args": [
 				],
-				"cwd": "/home/jeffy/UnrealEngine",
+				"cwd": "/home/jeffy/UnrealEngine5_8",
 				"type": "cppdbg",
-				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"visualizerFile": "/home/jeffy/UnrealEngine5_8/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
 				"showDisplayString": true
 			},
 			{
@@ -761,9 +768,9 @@
 				"preLaunchTask": "SpaceshipSim Linux DebugGame Build",
 				"args": [
 				],
-				"cwd": "/home/jeffy/UnrealEngine",
+				"cwd": "/home/jeffy/UnrealEngine5_8",
 				"type": "cppdbg",
-				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"visualizerFile": "/home/jeffy/UnrealEngine5_8/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
 				"showDisplayString": true
 			},
 			{
@@ -773,9 +780,9 @@
 				"preLaunchTask": "SpaceshipSim Linux Development Build",
 				"args": [
 				],
-				"cwd": "/home/jeffy/UnrealEngine",
+				"cwd": "/home/jeffy/UnrealEngine5_8",
 				"type": "cppdbg",
-				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"visualizerFile": "/home/jeffy/UnrealEngine5_8/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
 				"showDisplayString": true
 			},
 			{
@@ -785,9 +792,9 @@
 				"preLaunchTask": "SpaceshipSim Linux Test Build",
 				"args": [
 				],
-				"cwd": "/home/jeffy/UnrealEngine",
+				"cwd": "/home/jeffy/UnrealEngine5_8",
 				"type": "cppdbg",
-				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"visualizerFile": "/home/jeffy/UnrealEngine5_8/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
 				"showDisplayString": true
 			},
 			{
@@ -797,48 +804,48 @@
 				"preLaunchTask": "SpaceshipSim Linux Shipping Build",
 				"args": [
 				],
-				"cwd": "/home/jeffy/UnrealEngine",
+				"cwd": "/home/jeffy/UnrealEngine5_8",
 				"type": "cppdbg",
-				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"visualizerFile": "/home/jeffy/UnrealEngine5_8/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
 				"showDisplayString": true
 			},
 			{
 				"name": "Launch SpaceshipSimEditor (Debug)",
 				"request": "launch",
-				"program": "/home/jeffy/UnrealEngine/Engine/Binaries/Linux/UnrealEditor-Linux-Debug",
+				"program": "/home/jeffy/UnrealEngine5_8/Engine/Binaries/Linux/UnrealEditor-Linux-Debug",
 				"preLaunchTask": "SpaceshipSimEditor Linux Debug Build",
 				"args": [
 					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject"
 				],
-				"cwd": "/home/jeffy/UnrealEngine",
+				"cwd": "/home/jeffy/UnrealEngine5_8",
 				"type": "cppdbg",
-				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"visualizerFile": "/home/jeffy/UnrealEngine5_8/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
 				"showDisplayString": true
 			},
 			{
 				"name": "Launch SpaceshipSimEditor (DebugGame)",
 				"request": "launch",
-				"program": "/home/jeffy/UnrealEngine/Engine/Binaries/Linux/UnrealEditor-Linux-DebugGame",
+				"program": "/home/jeffy/UnrealEngine5_8/Engine/Binaries/Linux/UnrealEditor-Linux-DebugGame",
 				"preLaunchTask": "SpaceshipSimEditor Linux DebugGame Build",
 				"args": [
 					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject"
 				],
-				"cwd": "/home/jeffy/UnrealEngine",
+				"cwd": "/home/jeffy/UnrealEngine5_8",
 				"type": "cppdbg",
-				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"visualizerFile": "/home/jeffy/UnrealEngine5_8/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
 				"showDisplayString": true
 			},
 			{
 				"name": "Launch SpaceshipSimEditor (Development)",
 				"request": "launch",
-				"program": "/home/jeffy/UnrealEngine/Engine/Binaries/Linux/UnrealEditor",
+				"program": "/home/jeffy/UnrealEngine5_8/Engine/Binaries/Linux/UnrealEditor",
 				"preLaunchTask": "SpaceshipSimEditor Linux Development Build",
 				"args": [
 					"/home/jeffy/Documents/UnrealProjects/SpaceshipSim/SpaceshipSim.uproject"
 				],
-				"cwd": "/home/jeffy/UnrealEngine",
+				"cwd": "/home/jeffy/UnrealEngine5_8",
 				"type": "cppdbg",
-				"visualizerFile": "/home/jeffy/UnrealEngine/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"visualizerFile": "/home/jeffy/UnrealEngine5_8/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
 				"showDisplayString": true
 			},
 			{
@@ -846,7 +853,7 @@
 				"type": "coreclr",
 				"request": "launch",
 				"preLaunchTask": "UnrealBuildTool Linux Development Build",
-				"program": "/home/jeffy/UnrealEngine/Engine/Build/BatchFiles/RunUBT.bat",
+				"program": "/home/jeffy/UnrealEngine5_8/Engine/Build/BatchFiles/RunUBT.sh",
 				"args": [
 					"-projectfiles",
 					"-vscode",
@@ -855,10 +862,17 @@
 					"-engine",
 					"-dotnet"
 				],
+				"env": {
+					"PATH": "/home/jeffy/UnrealEngine5_8/Engine/Binaries/ThirdParty/DotNet/10.0/linux-x64:${env:PATH}",
+					"DOTNET_ROOT": "/home/jeffy/UnrealEngine5_8/Engine/Binaries/ThirdParty/DotNet/10.0/linux-x64",
+					"DOTNET_HOST_PATH": "/home/jeffy/UnrealEngine5_8/Engine/Binaries/ThirdParty/DotNet/10.0/linux-x64/dotnet",
+					"DOTNET_MULTILEVEL_LOOKUP": "0",
+					"DOTNET_ROLL_FORWARD": "LatestMajor"
+				},
 				"console": "internalConsole",
 				"internalConsoleOptions": "openOnSessionStart",
 				"stopAtEntry": false,
-				"cwd": "/home/jeffy/UnrealEngine"
+				"cwd": "/home/jeffy/UnrealEngine5_8"
 			}
 		]
 	}

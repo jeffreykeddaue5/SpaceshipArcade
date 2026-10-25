@@ -19,3 +19,7 @@ Plugins/Developer/*
 *.suo
 *.xcodeproj
 *.xcworkspace
+
+# Generated project files
+Makefile
+*.code-workspace

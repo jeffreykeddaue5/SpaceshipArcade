@@ -78,7 +78,14 @@ void USpaceshipMovementComponent::TickComponent(
 	{
 		return;
 	}
-	
+
+	if (!PawnOwner->HasAuthority() && !PawnOwner->IsLocallyControlled())
+	{
+		// Simulated proxies are driven by ASpaceshipPawn::InterpolateRemoteState instead
+		// of re-running the flight sim off bursty replicated inputs.
+		return;
+	}
+
 	UpdateVelocity(DeltaTime);
 	UpdateSteering(DeltaTime);
 	UpdateRotation(DeltaTime);

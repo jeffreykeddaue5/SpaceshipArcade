@@ -22,6 +22,13 @@ static TAutoConsoleVariable<float> CVarCruiseDecelerationRate(
 	ECVF_Cheat
 	);
 
+static TAutoConsoleVariable<float> CVarInterpolationDelay(
+	TEXT("spaceship.InterpolationDelay"),
+	0.1f,
+	TEXT("Seconds of buffered delay applied to remote ship interpolation"),
+	ECVF_Cheat
+	);
+
 
 namespace SpaceshipCVars
 {
@@ -36,5 +43,9 @@ namespace SpaceshipCVars
 	float GetCruiseDecelerationRate()
 	{
 		return CVarCruiseDecelerationRate.GetValueOnAnyThread();
+	}
+	float GetInterpolationDelay()
+	{
+		return CVarInterpolationDelay.GetValueOnAnyThread();
 	}
 }

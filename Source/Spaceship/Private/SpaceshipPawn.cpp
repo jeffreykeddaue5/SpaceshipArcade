@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "SpaceshipMovementComponent.h"
+#include "SpaceshipCvars.h"
 #include "Net/UnrealNetwork.h"
 
 DEFINE_LOG_CATEGORY(LogSpaceship);
@@ -15,6 +16,7 @@ ASpaceshipPawn::ASpaceshipPawn()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	bReplicates = true;
+	SetReplicatingMovement(false);
 
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -81,25 +83,71 @@ void ASpaceshipPawn::OnRep_ServerState()
 	{
 		return; // prediction already correct
 	}
-	
-	UE_LOG(LogSpaceship, Warning, TEXT("CLIENT received state"));
-	
+
 	SnapshotBuffer.Add(ServerState);
-	DrawDebugDirectionalArrow(
-		GetWorld(),
-		ServerState.Location,
-		ServerState.Location + GetActorForwardVector() * 200,
-		40,
-		FColor::Red,
-		true,
-		-1,
-		0,
-		50.0
-	);
-	
+
 	if (SnapshotBuffer.Num() > 20)
 	{
 		SnapshotBuffer.RemoveAt(0);
+	}
+}
+
+void ASpaceshipPawn::InterpolateRemoteState(float DeltaTime)
+{
+	if (SnapshotBuffer.Num() < 2)
+	{
+		return;
+	}
+
+	const float InterpDelay = SpaceshipCVars::GetInterpolationDelay();
+	const float LatestTimeStamp = SnapshotBuffer.Last().TimeStamp;
+
+	if (InterpolationClock < 0.f)
+	{
+		InterpolationClock = LatestTimeStamp - InterpDelay;
+	}
+	else
+	{
+		InterpolationClock += DeltaTime;
+		InterpolationClock = FMath::FInterpTo(InterpolationClock, LatestTimeStamp - InterpDelay, DeltaTime, 1.f);
+	}
+
+	if (InterpolationClock <= SnapshotBuffer[0].TimeStamp)
+	{
+		SetActorLocationAndRotation(SnapshotBuffer[0].Location, SnapshotBuffer[0].Rotation, false, nullptr, ETeleportType::None);
+		return;
+	}
+
+	if (InterpolationClock >= LatestTimeStamp)
+	{
+		SetActorLocationAndRotation(SnapshotBuffer.Last().Location, SnapshotBuffer.Last().Rotation, false, nullptr, ETeleportType::None);
+		return;
+	}
+
+	int32 NewestIndexBefore = 0;
+	for (int32 Index = 0; Index < SnapshotBuffer.Num() - 1; ++Index)
+	{
+		if (SnapshotBuffer[Index].TimeStamp <= InterpolationClock && SnapshotBuffer[Index + 1].TimeStamp > InterpolationClock)
+		{
+			NewestIndexBefore = Index;
+			break;
+		}
+	}
+
+	const FShipState& A = SnapshotBuffer[NewestIndexBefore];
+	const FShipState& B = SnapshotBuffer[NewestIndexBefore + 1];
+
+	const float Span = B.TimeStamp - A.TimeStamp;
+	const float Alpha = Span > KINDA_SMALL_NUMBER ? (InterpolationClock - A.TimeStamp) / Span : 1.f;
+
+	const FVector NewLocation = FMath::Lerp(A.Location, B.Location, Alpha);
+	const FQuat NewRotation = FQuat::Slerp(A.Rotation.Quaternion(), B.Rotation.Quaternion(), Alpha);
+
+	SetActorLocationAndRotation(NewLocation, NewRotation, false, nullptr, ETeleportType::None);
+
+	if (NewestIndexBefore > 0)
+	{
+		SnapshotBuffer.RemoveAt(0, NewestIndexBefore);
 	}
 }
 
@@ -223,10 +271,8 @@ void ASpaceshipPawn::Tick(float DeltaTime)
 		ServerState = NewState; 
 	}
 	
-	if (!HasAuthority() && !IsLocallyControlled() && SnapshotBuffer.Num() > 0)
+	if (!HasAuthority() && !IsLocallyControlled())
 	{
-		UE_LOG(LogSpaceship, Log,
-			TEXT("ServerState Location %s"),
-			*SnapshotBuffer.Last().Location.ToString());
+		InterpolateRemoteState(DeltaTime);
 	}
 }

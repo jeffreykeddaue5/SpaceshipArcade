@@ -94,9 +94,13 @@ protected:
 
 	UFUNCTION()
 	void OnRep_ServerState();
-	
+
 	UPROPERTY(BlueprintReadOnly,Category=Movement)
 	TArray<FShipState> SnapshotBuffer;
+
+	float InterpolationClock = -1.f;
+
+	void InterpolateRemoteState(float DeltaTime);
 
 	// Input handlers
 	void Steering(const FInputActionValue& Value);
